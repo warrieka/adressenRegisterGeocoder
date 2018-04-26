@@ -33,7 +33,7 @@ namespace adressenRegisterGeocoder
       {
          return transformMerc2lam72(pt.X, pt.Y);
       }
-      public GeoAPI.Geometries.Coordinate transformMlam72Merc(double x, double y)
+      public GeoAPI.Geometries.Coordinate transformlam72Merc(double x, double y)
       {
          var trans = ct.CreateFromCoordinateSystems(lam72, merc);
          var xy = trans.MathTransform.Transform(new double[] { x, y });
