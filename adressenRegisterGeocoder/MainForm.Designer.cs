@@ -33,6 +33,11 @@
          this.saveBtn = new System.Windows.Forms.Button();
          this.saveShapeDlg = new System.Windows.Forms.SaveFileDialog();
          this.splitContainer = new System.Windows.Forms.SplitContainer();
+         this.groupBox1 = new System.Windows.Forms.GroupBox();
+         this.blanckoRadio = new System.Windows.Forms.RadioButton();
+         this.centerRadio = new System.Windows.Forms.RadioButton();
+         this.randomRadio = new System.Windows.Forms.RadioButton();
+         this.closeBtn = new System.Windows.Forms.Button();
          this.progressBar = new System.Windows.Forms.ProgressBar();
          this.gridPanel = new System.Windows.Forms.Panel();
          this.csvDataGrid = new System.Windows.Forms.DataGridView();
@@ -73,6 +78,7 @@
          this.splitContainer.Panel1.SuspendLayout();
          this.splitContainer.Panel2.SuspendLayout();
          this.splitContainer.SuspendLayout();
+         this.groupBox1.SuspendLayout();
          this.gridPanel.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.csvDataGrid)).BeginInit();
          this.gridTools.SuspendLayout();
@@ -107,12 +113,12 @@
          // saveBtn
          // 
          this.saveBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-         this.saveBtn.Location = new System.Drawing.Point(717, 644);
+         this.saveBtn.Location = new System.Drawing.Point(598, 644);
          this.saveBtn.Name = "saveBtn";
          this.saveBtn.Size = new System.Drawing.Size(104, 28);
          this.saveBtn.TabIndex = 10;
          this.saveBtn.TabStop = false;
-         this.saveBtn.Text = "Save";
+         this.saveBtn.Text = "Opslaan";
          this.saveBtn.UseVisualStyleBackColor = true;
          this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
          // 
@@ -131,6 +137,8 @@
          // 
          // splitContainer.Panel1
          // 
+         this.splitContainer.Panel1.Controls.Add(this.groupBox1);
+         this.splitContainer.Panel1.Controls.Add(this.closeBtn);
          this.splitContainer.Panel1.Controls.Add(this.progressBar);
          this.splitContainer.Panel1.Controls.Add(this.gridPanel);
          this.splitContainer.Panel1.Controls.Add(this.adresSettingsBox);
@@ -150,6 +158,63 @@
          this.splitContainer.SplitterDistance = 828;
          this.splitContainer.TabIndex = 2;
          // 
+         // groupBox1
+         // 
+         this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+         this.groupBox1.Controls.Add(this.blanckoRadio);
+         this.groupBox1.Controls.Add(this.centerRadio);
+         this.groupBox1.Controls.Add(this.randomRadio);
+         this.groupBox1.Location = new System.Drawing.Point(11, 196);
+         this.groupBox1.Name = "groupBox1";
+         this.groupBox1.Size = new System.Drawing.Size(793, 55);
+         this.groupBox1.TabIndex = 15;
+         this.groupBox1.TabStop = false;
+         this.groupBox1.Text = "Indien enkel de straat gevonden en niet het huisnummer, neem dan als XY:";
+         // 
+         // blanckoRadio
+         // 
+         this.blanckoRadio.AutoSize = true;
+         this.blanckoRadio.Checked = true;
+         this.blanckoRadio.Location = new System.Drawing.Point(12, 21);
+         this.blanckoRadio.Name = "blanckoRadio";
+         this.blanckoRadio.Size = new System.Drawing.Size(104, 21);
+         this.blanckoRadio.TabIndex = 18;
+         this.blanckoRadio.TabStop = true;
+         this.blanckoRadio.Text = "Laat Blanco";
+         this.blanckoRadio.UseVisualStyleBackColor = true;
+         // 
+         // centerRadio
+         // 
+         this.centerRadio.AutoSize = true;
+         this.centerRadio.Location = new System.Drawing.Point(302, 21);
+         this.centerRadio.Name = "centerRadio";
+         this.centerRadio.Size = new System.Drawing.Size(169, 21);
+         this.centerRadio.TabIndex = 17;
+         this.centerRadio.Text = "Centrum van de straat";
+         this.centerRadio.UseVisualStyleBackColor = true;
+         // 
+         // randomRadio
+         // 
+         this.randomRadio.AutoSize = true;
+         this.randomRadio.Location = new System.Drawing.Point(122, 21);
+         this.randomRadio.Name = "randomRadio";
+         this.randomRadio.Size = new System.Drawing.Size(174, 21);
+         this.randomRadio.TabIndex = 16;
+         this.randomRadio.Text = "Random punt op straat";
+         this.randomRadio.UseVisualStyleBackColor = true;
+         // 
+         // closeBtn
+         // 
+         this.closeBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+         this.closeBtn.Location = new System.Drawing.Point(708, 644);
+         this.closeBtn.Name = "closeBtn";
+         this.closeBtn.Size = new System.Drawing.Size(113, 28);
+         this.closeBtn.TabIndex = 14;
+         this.closeBtn.Text = "Afsluiten";
+         this.closeBtn.UseVisualStyleBackColor = true;
+         this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
+         // 
          // progressBar
          // 
          this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -166,10 +231,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
          this.gridPanel.Controls.Add(this.csvDataGrid);
          this.gridPanel.Controls.Add(this.gridTools);
-         this.gridPanel.Location = new System.Drawing.Point(11, 209);
+         this.gridPanel.Location = new System.Drawing.Point(11, 258);
          this.gridPanel.Margin = new System.Windows.Forms.Padding(4);
          this.gridPanel.Name = "gridPanel";
-         this.gridPanel.Size = new System.Drawing.Size(809, 429);
+         this.gridPanel.Size = new System.Drawing.Size(809, 380);
          this.gridPanel.TabIndex = 12;
          // 
          // csvDataGrid
@@ -182,7 +247,7 @@
          this.csvDataGrid.Margin = new System.Windows.Forms.Padding(4);
          this.csvDataGrid.Name = "csvDataGrid";
          this.csvDataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-         this.csvDataGrid.Size = new System.Drawing.Size(809, 402);
+         this.csvDataGrid.Size = new System.Drawing.Size(809, 353);
          this.csvDataGrid.TabIndex = 6;
          this.csvDataGrid.SelectionChanged += new System.EventHandler(this.csvDataGrid_SelectionChanged);
          // 
@@ -276,7 +341,7 @@
          this.adresSettingsBox.MinimumSize = new System.Drawing.Size(400, 80);
          this.adresSettingsBox.Name = "adresSettingsBox";
          this.adresSettingsBox.Padding = new System.Windows.Forms.Padding(4);
-         this.adresSettingsBox.Size = new System.Drawing.Size(801, 90);
+         this.adresSettingsBox.Size = new System.Drawing.Size(801, 85);
          this.adresSettingsBox.TabIndex = 11;
          this.adresSettingsBox.TabStop = false;
          this.adresSettingsBox.Text = "Adres Instellingen";
@@ -456,7 +521,7 @@
             "Comma",
             "Spatie",
             "Tab",
-            "Ander teken:"});
+            "Ander:"});
          this.sepCbx.Location = new System.Drawing.Point(451, 49);
          this.sepCbx.Margin = new System.Windows.Forms.Padding(4);
          this.sepCbx.Name = "sepCbx";
@@ -591,6 +656,8 @@
          this.splitContainer.Panel2.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
          this.splitContainer.ResumeLayout(false);
+         this.groupBox1.ResumeLayout(false);
+         this.groupBox1.PerformLayout();
          this.gridPanel.ResumeLayout(false);
          this.gridPanel.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.csvDataGrid)).EndInit();
@@ -648,6 +715,11 @@
       public System.ComponentModel.BackgroundWorker validationWorker;
       private System.Windows.Forms.Button zoomOUTBtn;
       private System.Windows.Forms.Button zoomINBtn;
+      private System.Windows.Forms.Button closeBtn;
+      private System.Windows.Forms.GroupBox groupBox1;
+      private System.Windows.Forms.RadioButton blanckoRadio;
+      private System.Windows.Forms.RadioButton centerRadio;
+      private System.Windows.Forms.RadioButton randomRadio;
    }
 }
 

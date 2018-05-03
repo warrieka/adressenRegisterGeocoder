@@ -32,6 +32,7 @@ namespace adressenRegisterGeocoder
       int huisnrCol;
       int gemeenteCol;
       int pcCol;
+      geoUtils gu;
       VectorLayer vlay;
       DataGridViewRow[] rows2validate;
 
@@ -44,6 +45,7 @@ namespace adressenRegisterGeocoder
          initMap();
          sepCbx.SelectedIndex = 0;
          encodingCbx.SelectedIndex = 0;
+         this.FormClosing += MainForm_FormClosing;
       }
 
       #region save
@@ -51,7 +53,7 @@ namespace adressenRegisterGeocoder
       {
          if (saveShapeDlg.ShowDialog(this) == System.Windows.Forms.DialogResult.Cancel) return;
 
-         bool result;
+         bool result = false; 
          var ext = Path.GetExtension(saveShapeDlg.FileName);
          if (ext == ".shp")
          {
@@ -59,21 +61,16 @@ namespace adressenRegisterGeocoder
          }
          else if (ext == ".csv")
          {
-            result = saveCsv();
+            result = saveCsv(saveShapeDlg.FileName);
          }
-         else
-         {
-            result = false; 
-         }
-         
          if (result) 
             MessageBox.Show(Path.GetFileName(saveShapeDlg.FileName) + " is opgeslagen.");
          else
-            MessageBox.Show(Path.GetFileName(saveShapeDlg.FileName) + " werd niet opgeslagen, er zijn geen records met een geometrie");
+            MessageBox.Show(Path.GetFileName(saveShapeDlg.FileName) + " werd niet opgeslagen, mogelijk zijn er geen records met een geometrie");
          
       }
 
-      private bool saveCsv()
+      private bool saveCsv(string flName)
       {
          var sb = new StringBuilder();
          var headers = csvDataGrid.Columns.Cast<DataGridViewColumn>();
@@ -84,11 +81,9 @@ namespace adressenRegisterGeocoder
             var cells = row.Cells.Cast<DataGridViewCell>();
             sb.AppendLine(string.Join(";", cells.Select(cell => "\""+ cell.Value +"\"" ).ToArray()));
          }
-         //File.WriteAllText(saveShapeDlg.FileName, sb.ToString(), Encoding.Unicode);
-
          var utf8bytes = Encoding.UTF8.GetBytes(sb.ToString());
          var win1252Bytes = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("windows-1252"), utf8bytes);
-         File.WriteAllBytes(saveShapeDlg.FileName, win1252Bytes);
+         File.WriteAllBytes(flName , win1252Bytes);
 
          return true;
       }
@@ -152,6 +147,9 @@ namespace adressenRegisterGeocoder
          //create geometry collection
          GeoAPI.GeometryServiceProvider.Instance = new NtsGeometryServices();
          gf = GeoAPI.GeometryServiceProvider.Instance.CreateGeometryFactory();
+
+        gu = new geoUtils(gf);
+
          adresMatch = new AdresMatchClient();
 
          SharpMap.Data.FeatureDataTable feats = new SharpMap.Data.FeatureDataTable();
@@ -165,9 +163,11 @@ namespace adressenRegisterGeocoder
          var grb = new TileAsyncLayer(new TmsTileSource("http://tile.informatievlaanderen.be/ws/raadpleegdiensten/tms/1.0.0/grb_bsk@GoogleMapsVL",
                                            new BruTile.PreDefined.SphericalMercatorWorldSchema()), "GRB") { Enabled = true };
          var lufo = new TileAsyncLayer(new TmsTileSource("http://tile.informatievlaanderen.be/ws/raadpleegdiensten/tms/1.0.0/omwrgbmrvl@GoogleMapsVL",
-                                           new BruTile.PreDefined.SphericalMercatorWorldSchema()), "Luchtfoto") { Enabled = false };
+                                           new BruTile.PreDefined.SphericalMercatorWorldSchema()), "Luchtfoto") { Enabled = false,  };
+         var antTile = new BruTile.PreDefined.SphericalMercatorInvertedWorldSchema();
+         antTile.Resolutions.Add(new Resolution() { Id = "19", UnitsPerPixel = 0.298582141647617 });
          var ant = new TileAsyncLayer(new ArcGisTileSource("https://tiles.arcgis.com/tiles/1KSVSmnHT2Lw9ea6/arcgis/rest/services/basemap_stadsplan_v5/MapServer",
-                                           new BruTile.PreDefined.SphericalMercatorInvertedWorldSchema()), "Antwerpen") { Enabled = false };
+                                        antTile ), "Antwerpen") { Enabled = false };
          var osm = new TileAsyncLayer(new BruTile.Web.OsmTileSource(), "OSM") { Enabled = false };
          //Add layers to map
          mapBox.Map.Layers.Add(vlay);
@@ -241,6 +241,7 @@ namespace adressenRegisterGeocoder
       {
          if (openTableDlg.ShowDialog(this) == System.Windows.Forms.DialogResult.Cancel) return;
          var csv = openTableDlg.FileName;
+         var sep = sepCbx.Text == "Ander:" ? otherSepBox.Text : sepCbx.Text;
          csvPathTxt.Text = csv;
          DataTable csvTable;
 
@@ -248,13 +249,13 @@ namespace adressenRegisterGeocoder
          dataloaded = false;
 
          if (encodingCbx.Text == "UTF-8") {
-            csvTable = csvReader.loadCSV2datatable(csv, sepCbx.Text, maxRows, Encoding.UTF8);
+            csvTable = csvReader.loadCSV2datatable(csv, sep, maxRows, Encoding.UTF8);
          }
          else if (encodingCbx.Text == "ANSI") {
-            csvTable = csvReader.loadCSV2datatable(csv, sepCbx.Text, maxRows, Encoding.ASCII);
+            csvTable = csvReader.loadCSV2datatable(csv, sep, maxRows, Encoding.ASCII);
          }
          else {
-            csvTable = csvReader.loadCSV2datatable(csv, sepCbx.Text, maxRows);
+            csvTable = csvReader.loadCSV2datatable(csv, sep, maxRows);
          }
 
          straatColCbx.Items.Clear();
@@ -267,7 +268,8 @@ namespace adressenRegisterGeocoder
          gemeenteColCbx.Items.Add("");
 
          //set extra columns
-         var validatedRow = new DataGridViewTextBoxColumn() { HeaderText = "validAdres", Name = "validAdres", Width = 120 }; //DataGridViewComboBoxColumn
+         var validatedRow = new DataGridViewTextBoxColumn() { HeaderText = "validAdres", Name = "validAdres", Width = 120, ReadOnly = true}; //DataGridViewComboBoxColumn
+         var infoRow = new DataGridViewTextBoxColumn() { HeaderText = "info", Name = "info", Width = 120, ReadOnly = true};
          var xRow = new DataGridViewTextBoxColumn() { HeaderText = "X", Name = "X", Width = 60, ReadOnly = true};
          xRow.DefaultCellStyle.Format = "F0";
          var yRow = new DataGridViewTextBoxColumn() { HeaderText = "Y", Name = "Y", Width = 60 , ReadOnly = true};
@@ -287,30 +289,20 @@ namespace adressenRegisterGeocoder
             csvDataGrid.Rows.Add(row.ItemArray);
          }
          csvDataGrid.Columns.Add(validatedRow);
+         csvDataGrid.Columns.Add(infoRow);
          csvDataGrid.Columns.Add(xRow);
          csvDataGrid.Columns.Add(yRow);
          dataloaded = true;
-      }
-
-      
+      }   
       #endregion 
 
       #region validation 
-      private List<AdresMatchItem> searchAdres(string street, string housenr, string municapality, string postcode)
+      private IEnumerable<AdresMatchItem> searchAdres(string street, string housenr, string municapality, string postcode)
       {
-         if (municapality.Trim() == "" & postcode.Trim() == "") municapality = "Antwerpen";
-         AdresMatchCollectie adresses;
-         try
-         {
-            adresses = adresMatch.Get("1", municapality, adresMatchRequest_straatnaam: street,
+         if (municapality.Trim() == "" && postcode.Trim() == "") municapality = "Antwerpen";
+         var adresses = adresMatch.Get("1", municapality, adresMatchRequest_straatnaam: street,
                                  adresMatchRequest_postcode: postcode, adresMatchRequest_huisnummer: housenr);
-         }
-         catch (vlaanderen.informatie.SwaggerException)
-         {
-            return new List<AdresMatchItem>();
-         }
-         IEnumerable<AdresMatchItem> fullAdresses = from adres in adresses.AdresMatches where adres.VolledigAdres != null select adres;
-         return fullAdresses.ToList();
+         return adresses.AdresMatches;
       }
 
       private void validateAllBtn_Click(object sender, EventArgs e)
@@ -353,7 +345,6 @@ namespace adressenRegisterGeocoder
             csvDataGrid.ClearSelection();
             validationWorker.RunWorkerAsync(rows2validate);
          }
-
       }
       #endregion
 
@@ -370,66 +361,86 @@ namespace adressenRegisterGeocoder
                e.Cancel = true;
                return;
             }
-            var straat = straatCol > 0 ? (string)row.Cells[straatCol].Value : "";
-            var huisnr = huisnrCol > 0 ? (string)row.Cells[huisnrCol].Value: "";
-            var gemeente = gemeenteCol > 0  ? (string)row.Cells[gemeenteCol].Value: "";
-            var pc = pcCol > 0 ? (string)row.Cells[pcCol].Value : "";
+            var straat = straatCol >= 0 ? (string)row.Cells[straatCol].Value : "";
+            var huisnr = huisnrCol >= 0 ? (string)row.Cells[huisnrCol].Value: "";
+            var gemeente = gemeenteCol >= 0  ? (string)row.Cells[gemeenteCol].Value: "";
+            var pc = pcCol >= 0 ? (string)row.Cells[pcCol].Value : "";
 
-            var suggestions = searchAdres(straat, huisnr, gemeente, pc);
-
+            object suggestions;
+            try
+            {
+               suggestions = searchAdres(straat, huisnr, gemeente, pc);
+            }
+            catch (SwaggerException erro)
+            {
+               suggestions = erro;
+            }
             validationWorker.ReportProgress(counter, suggestions);
             counter++;
          }
       }
       private void validationWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
       {
-         var suggestions = (List<AdresMatchItem>)e.UserState;
+         var suggestions = e.UserState as IEnumerable<AdresMatchItem>;
          int count = e.ProgressPercentage;
 
          var validCell = (DataGridViewTextBoxCell)rows2validate[count].Cells["validAdres"];
+         var infoCell = (DataGridViewTextBoxCell)rows2validate[count].Cells["info"];
          var xCell = (DataGridViewTextBoxCell)rows2validate[count].Cells["X"];
-         var yCell = (DataGridViewTextBoxCell)rows2validate[count].Cells["Y"]; 
+         var yCell = (DataGridViewTextBoxCell)rows2validate[count].Cells["Y"];
 
-         Color clr;
-         if (suggestions.Count == 0)
+         Color clr = ColorTranslator.FromHtml("#F8E0E0");
+         validCell.Value = null;
+         infoCell.Value = "0 | Geen overeenkomstige adressen gevonden.";
+         xCell.Value = null; yCell.Value = null;
+
+         if (suggestions == null && e.UserState as SwaggerException != null)
          {
-            clr = ColorTranslator.FromHtml("#F8E0E0");
+            var erro = (SwaggerException)e.UserState;
+            infoCell.Value = "0 | "+ erro.Response;
          }
-         else // if (suggestions.Count >= 1)
+         else if ((from n in suggestions where n.VolledigAdres != null select n).Count() >= 1)
          {
-            double x = suggestions[0].AdresPositie.Point1.Coordinates[0];
-            double y = suggestions[0].AdresPositie.Point1.Coordinates[1];
-            string adres = suggestions[0].VolledigAdres.GeografischeNaam.Spelling;
+            var adresMatch = suggestions.Where(n => n.VolledigAdres != null).First(); //TODO multiple results
+            double x = adresMatch.AdresPositie.Point1.Coordinates[0];
+            double y = adresMatch.AdresPositie.Point1.Coordinates[1];
+            string adres = adresMatch.VolledigAdres.GeografischeNaam.Spelling;
+            string info = (adresMatch.Score != null ? ((double)adresMatch.Score).ToString("000.0") : "") +
+               " | " + adresMatch.PositieGeometrieMethode + " | " + adresMatch.PositieSpecificatie; 
 
             validCell.Value = adres;
+            infoCell.Value = info;
             xCell.Value = x;
             yCell.Value = y;
             clr = ColorTranslator.FromHtml("#D0F5A9");
          }
-         //TODO multible results
-         //else
-         //{
-         //   validCell.Items.Clear();
-         //   string huisnr = "";
-         //   string street = (string)rows2validate[count].Cells[straatCol].Value;
-         //   if (huisnrCol >= 0) huisnr = (string)rows2validate[count].Cells[huisnrCol].Value;
-         //   string streetNrValid = suggestions[0].Split(',').First();
-         //   if (streetNrValid.ToLowerInvariant() == street.ToLowerInvariant() + " " + huisnr.ToLowerInvariant())
-         //   {
-         //      validCell.Items.AddRange(suggestions[0]);
-         //      clr = ColorTranslator.FromHtml("#F5F6CE");
-         //   }
-         //   else
-         //   {
-         //      validCell.Items.AddRange(suggestions.ToArray());
-         //      clr = ColorTranslator.FromHtml("#F5F6CE");
-         //   }
-         //   validCell.Value = validCell.Items[0];
-         //}
-         foreach (DataGridViewCell cel in rows2validate[count].Cells)
+         else if ((from n in suggestions where n.VolledigAdres == null && n.Straatnaam != null select n).Count() >= 1)
          {
-            cel.Style.BackColor = clr;
+            var straat = suggestions.Where(n => n.Straatnaam != null).First();
+            string straatNaam = straat.Straatnaam.Straatnaam.GeografischeNaam.Spelling;
+            string gemeente = straat.Gemeente.Gemeentenaam.GeografischeNaam.Spelling;
+            validCell.Value = straatNaam + ", " + gemeente;
+            infoCell.Value = (straat.Score != null ? ((double)straat.Score).ToString("000.0") : "0")
+                                                                        + " | Huisnummer niet gevonden | Straatnaam";
+            if (randomRadio.Checked)
+            {
+               int roadId = Convert.ToInt32( straat.Straatnaam.ObjectId );
+               var geom =  gu.getRoadByID(roadId);
+               var xy = gu.randomPointOnLine(geom);
+               xCell.Value = Math.Round(xy.X, 2);
+               yCell.Value = Math.Round(xy.Y, 2);
+            }
+            else if (centerRadio.Checked)
+            {
+               int roadId = Convert.ToInt32( straat.Straatnaam.ObjectId );
+               var geom =  gu.getRoadByID(roadId);
+               xCell.Value = Math.Round(geom.Centroid.X, 2);
+               yCell.Value = Math.Round(geom.Centroid.Y, 2);
+            }
+            clr = ColorTranslator.FromHtml("#ffcc99");
          }
+
+         foreach (DataGridViewCell cel in rows2validate[count].Cells) cel.Style.BackColor = clr;
          progressBar.Value = count;
 
       }
@@ -530,7 +541,7 @@ namespace adressenRegisterGeocoder
          var ptlam = crs.transformMerc2lam72(pt);
 
          var row = csvDataGrid.SelectedRows[0];
-         row.Cells["validAdres"].Value = "Manueel";
+         row.Cells["info"].Value = "0 | Manueel geplaatst";
          row.Cells["X"].Value = ptlam.X;
          row.Cells["Y"].Value = ptlam.Y;
 
@@ -543,6 +554,18 @@ namespace adressenRegisterGeocoder
       }
       #endregion
 
+      #region close_event
+      void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+      {
+         var window = MessageBox.Show(
+             "Ben u zeker dat wilt afsluiten?", "Afsluiten", MessageBoxButtons.YesNo);
+         e.Cancel = (window == DialogResult.No);
+      }
+      private void closeBtn_Click(object sender, EventArgs e)
+      {
+            this.Close();
+      }
+      #endregion
 
    }
 }
