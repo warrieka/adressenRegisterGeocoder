@@ -4,7 +4,7 @@
 *.doc
 *.docx
 *.xlsx
-data/
+/data/
 
 Deliverable/
 images/*.ico
