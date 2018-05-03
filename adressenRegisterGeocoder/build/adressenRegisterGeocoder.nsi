@@ -2,10 +2,10 @@
 ;Written by Kay Warrie
 
 ;--------------------------------
-;Include Modern UI
-
+;Includes
   !include "MUI2.nsh"
-
+  !include "DotNetChecker.nsh"  ;requeres dll https://github.com/ReVolly/NsisDotNetChecker 
+ 
 ;--------------------------------
 ;General
 
@@ -24,7 +24,6 @@
 
   !define APPNAME "AdressenRegisterGeocoder"
   !define COMPANYNAME "KayWarrie"
-
   
 ;--------------------------------
 ;Interface Settings
@@ -47,13 +46,16 @@
   
 ;--------------------------------
 ;Languages
- 
   !insertmacro MUI_LANGUAGE "Dutch"
 
+
+  
 ;--------------------------------
 ;Installer Sections
-
 Section ;always executed, is hidden for user
+ ;dotnet
+ !insertmacro CheckNetFramework 45
+  
  ;Store installation folder
  WriteRegStr HKCU "Software\LNE_QGIS_tools" "" $INSTDIR
  
@@ -89,12 +91,6 @@ SectionEnd
 Section "Desktop Shortcuts" desktop
   CreateShortCut "$DESKTOP\${APPNAME}.lnk" "$INSTDIR\adressenRegisterGeocoder.exe" "" "$INSTDIR\adressenRegisterGeocoder.exe" 0
 SectionEnd
-;---------------
-;Descriptions
-
-   ; !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-     ; !insertmacro MUI_DESCRIPTION_TEXT ${adressenRegisterGeocoder} "Icoon toevoegen aan menu start"
-   ; !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
 ;Uninstaller Section
