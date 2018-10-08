@@ -1,12 +1,9 @@
-﻿using System;
+﻿using GeoAPI.Geometries;
+using NetTopologySuite.IO;
+using NetTopologySuite.LinearReferencing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NetTopologySuite;
-using NetTopologySuite.IO;
-using GeoAPI.Geometries;
-using NetTopologySuite.LinearReferencing;
 
 namespace adressenRegisterGeocoder
 {
@@ -69,5 +66,19 @@ namespace adressenRegisterGeocoder
          return LinearLocation.PointAlongSegmentByFraction(start, end, rnd.NextDouble() );
       }
 
+      public List<String> postcodesByRoadId(int roadid)
+      {
+         wr.Reset();
+         while (wr.Read())
+         {
+            var id = Convert.ToInt32(wr.GetValue(0));
+            if (id == roadid)
+            {
+               String pcs = Convert.ToString(wr.GetValue(2));
+               return pcs.Split(',').ToList();
+            }
+         }
+         return new List<string>(); //if nothing found return empty list
+      }
    }
 }

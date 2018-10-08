@@ -27,14 +27,15 @@ namespace adressenRegisterGeocoder
       GeometryProvider geoprov;
       AdresMatchClient adresMatch;
 
-      int maxRows = 10000;
+      int maxRows = Int32.MaxValue;
       int straatCol;
       int huisnrCol;
       int gemeenteCol;
       int pcCol;
-      geoUtils gu;
+ 
       VectorLayer vlay;
       DataGridViewRow[] rows2validate;
+      dataValidator dVal;
 
       bool dataloaded = false;
       bool prikLoc = false;
@@ -45,6 +46,7 @@ namespace adressenRegisterGeocoder
          initMap();
          sepCbx.SelectedIndex = 0;
          encodingCbx.SelectedIndex = 0;
+         dVal = new dataValidator();
          this.FormClosing += MainForm_FormClosing;
       }
 
@@ -147,8 +149,6 @@ namespace adressenRegisterGeocoder
          //create geometry collection
          GeoAPI.GeometryServiceProvider.Instance = new NtsGeometryServices();
          gf = GeoAPI.GeometryServiceProvider.Instance.CreateGeometryFactory();
-
-        gu = new geoUtils(gf);
 
          adresMatch = new AdresMatchClient();
 
@@ -297,12 +297,15 @@ namespace adressenRegisterGeocoder
       #endregion 
 
       #region validation 
-      private IEnumerable<AdresMatchItem> searchAdres(string street, string housenr, string municapality, string postcode)
+      private void searchAdres(string street, string housenr, string municapality, string postcode)
       {
          if (municapality.Trim() == "" && postcode.Trim() == "") municapality = "Antwerpen";
-         var adresses = adresMatch.Get("1", municapality, adresMatchRequest_straatnaam: street,
-                                 adresMatchRequest_postcode: postcode, adresMatchRequest_huisnummer: housenr);
-         return adresses.AdresMatches;
+
+         dVal.inputNr = housenr;
+         dVal.inputStreet = street;
+         dVal.inputPC = postcode;
+         dVal.inputMunicipality = municapality;
+         dVal.findAdres(nearNrChk.Checked);
       }
 
       private void validateAllBtn_Click(object sender, EventArgs e)
@@ -366,88 +369,33 @@ namespace adressenRegisterGeocoder
             var gemeente = gemeenteCol >= 0  ? (string)row.Cells[gemeenteCol].Value: "";
             var pc = pcCol >= 0 ? (string)row.Cells[pcCol].Value : "";
 
-            object suggestions;
-            try
-            {
-               suggestions = searchAdres(straat, huisnr, gemeente, pc);
-            }
-            catch (SwaggerException erro)
-            {
-               suggestions = erro;
-            }
-            validationWorker.ReportProgress(counter, suggestions);
+            searchAdres(straat, huisnr, gemeente, pc);
+
+            validationWorker.ReportProgress(counter);
             counter++;
          }
       }
       private void validationWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
       {
-         var suggestions = e.UserState as IEnumerable<AdresMatchItem>;
          int count = e.ProgressPercentage;
 
-         var validCell = (DataGridViewTextBoxCell)rows2validate[count].Cells["validAdres"];
-         var infoCell = (DataGridViewTextBoxCell)rows2validate[count].Cells["info"];
-         var xCell = (DataGridViewTextBoxCell)rows2validate[count].Cells["X"];
-         var yCell = (DataGridViewTextBoxCell)rows2validate[count].Cells["Y"];
+         dVal.adreValidation(randomRadio.Checked, centerRadio.Checked);
 
-         Color clr = ColorTranslator.FromHtml("#F8E0E0");
-         validCell.Value = null;
-         infoCell.Value = "0 | Geen overeenkomstige adressen gevonden.";
-         xCell.Value = null; yCell.Value = null;
+         rows2validate[count].Cells["validAdres"].Value = dVal.validadres;
+         rows2validate[count].Cells["info"].Value = dVal.info;
+         rows2validate[count].Cells["X"].Value = dVal.x;
+         rows2validate[count].Cells["Y"].Value = dVal.y;
 
-         if (suggestions == null && e.UserState as SwaggerException != null)
-         {
-            var erro = (SwaggerException)e.UserState;
-            infoCell.Value = "0 | "+ erro.Response;
-         }
-         else if ((from n in suggestions where n.VolledigAdres != null select n).Count() >= 1)
-         {
-            var adresMatch = suggestions.Where(n => n.VolledigAdres != null).First(); //TODO multiple results
-            double x = adresMatch.AdresPositie.Point1.Coordinates[0];
-            double y = adresMatch.AdresPositie.Point1.Coordinates[1];
-            string adres = adresMatch.VolledigAdres.GeografischeNaam.Spelling;
-            string info = (adresMatch.Score != null ? ((double)adresMatch.Score).ToString("000.0") : "") +
-               " | " + adresMatch.PositieGeometrieMethode + " | " + adresMatch.PositieSpecificatie; 
-
-            validCell.Value = adres;
-            infoCell.Value = info;
-            xCell.Value = x;
-            yCell.Value = y;
-            clr = ColorTranslator.FromHtml("#D0F5A9");
-         }
-         else if ((from n in suggestions where n.VolledigAdres == null && n.Straatnaam != null select n).Count() >= 1)
-         {
-            var straat = suggestions.Where(n => n.Straatnaam != null).First();
-            string straatNaam = straat.Straatnaam.Straatnaam.GeografischeNaam.Spelling;
-            string gemeente = straat.Gemeente.Gemeentenaam.GeografischeNaam.Spelling;
-            validCell.Value = straatNaam + ", " + gemeente;
-            infoCell.Value = (straat.Score != null ? ((double)straat.Score).ToString("000.0") : "0")
-                                                                        + " | Huisnummer niet gevonden | Straatnaam";
-            if (randomRadio.Checked)
-            {
-               int roadId = Convert.ToInt32( straat.Straatnaam.ObjectId );
-               var geom =  gu.getRoadByID(roadId);
-               var xy = gu.randomPointOnLine(geom);
-               xCell.Value = Math.Round(xy.X, 2);
-               yCell.Value = Math.Round(xy.Y, 2);
-            }
-            else if (centerRadio.Checked)
-            {
-               int roadId = Convert.ToInt32( straat.Straatnaam.ObjectId );
-               var geom =  gu.getRoadByID(roadId);
-               xCell.Value = Math.Round(geom.Centroid.X, 2);
-               yCell.Value = Math.Round(geom.Centroid.Y, 2);
-            }
-            clr = ColorTranslator.FromHtml("#ffcc99");
-         }
-
-         foreach (DataGridViewCell cel in rows2validate[count].Cells) cel.Style.BackColor = clr;
+         foreach (DataGridViewCell cel in rows2validate[count].Cells) cel.Style.BackColor = dVal.colorCode;
          progressBar.Value = count;
-
+         progressLbl.Text = count.ToString() + " / " + progressBar.Maximum.ToString();
       }
+
       private void validationWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
       {
          toggleInteraction(true);
          progressBar.Value = 0;
+         progressLbl.Text = "";
       }
       private void cancelValidationBtn_Click(object sender, EventArgs e)
       {
@@ -460,8 +408,6 @@ namespace adressenRegisterGeocoder
       {
          csvBox.Enabled = active;
          adresSettingsBox.Enabled = active;
-         gridPanel.UseWaitCursor = !active;
-         csvDataGrid.Enabled = active;
          manualLocBtn.Enabled = active;
          validateSelBtn.Enabled = active;
          validateAllBtn.Enabled = active;

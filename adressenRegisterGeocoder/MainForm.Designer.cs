@@ -33,12 +33,14 @@
          this.saveBtn = new System.Windows.Forms.Button();
          this.saveShapeDlg = new System.Windows.Forms.SaveFileDialog();
          this.splitContainer = new System.Windows.Forms.SplitContainer();
+         this.progressLbl = new System.Windows.Forms.Label();
+         this.progressBar = new System.Windows.Forms.ProgressBar();
          this.groupBox1 = new System.Windows.Forms.GroupBox();
+         this.nearNrChk = new System.Windows.Forms.CheckBox();
          this.blanckoRadio = new System.Windows.Forms.RadioButton();
          this.centerRadio = new System.Windows.Forms.RadioButton();
          this.randomRadio = new System.Windows.Forms.RadioButton();
          this.closeBtn = new System.Windows.Forms.Button();
-         this.progressBar = new System.Windows.Forms.ProgressBar();
          this.gridPanel = new System.Windows.Forms.Panel();
          this.csvDataGrid = new System.Windows.Forms.DataGridView();
          this.gridTools = new System.Windows.Forms.ToolStrip();
@@ -137,9 +139,10 @@
          // 
          // splitContainer.Panel1
          // 
+         this.splitContainer.Panel1.Controls.Add(this.progressLbl);
+         this.splitContainer.Panel1.Controls.Add(this.progressBar);
          this.splitContainer.Panel1.Controls.Add(this.groupBox1);
          this.splitContainer.Panel1.Controls.Add(this.closeBtn);
-         this.splitContainer.Panel1.Controls.Add(this.progressBar);
          this.splitContainer.Panel1.Controls.Add(this.gridPanel);
          this.splitContainer.Panel1.Controls.Add(this.adresSettingsBox);
          this.splitContainer.Panel1.Controls.Add(this.csvBox);
@@ -158,10 +161,30 @@
          this.splitContainer.SplitterDistance = 828;
          this.splitContainer.TabIndex = 2;
          // 
+         // progressLbl
+         // 
+         this.progressLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.progressLbl.AutoSize = true;
+         this.progressLbl.BackColor = System.Drawing.Color.Transparent;
+         this.progressLbl.Location = new System.Drawing.Point(342, 650);
+         this.progressLbl.Name = "progressLbl";
+         this.progressLbl.Size = new System.Drawing.Size(20, 17);
+         this.progressLbl.TabIndex = 16;
+         this.progressLbl.Text = "...";
+         // 
+         // progressBar
+         // 
+         this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+         this.progressBar.Location = new System.Drawing.Point(11, 645);
+         this.progressBar.Name = "progressBar";
+         this.progressBar.Size = new System.Drawing.Size(325, 23);
+         this.progressBar.TabIndex = 13;
+         // 
          // groupBox1
          // 
          this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+         this.groupBox1.Controls.Add(this.nearNrChk);
          this.groupBox1.Controls.Add(this.blanckoRadio);
          this.groupBox1.Controls.Add(this.centerRadio);
          this.groupBox1.Controls.Add(this.randomRadio);
@@ -171,6 +194,18 @@
          this.groupBox1.TabIndex = 15;
          this.groupBox1.TabStop = false;
          this.groupBox1.Text = "Indien enkel de straat gevonden en niet het huisnummer, neem dan als XY:";
+         // 
+         // nearNrChk
+         // 
+         this.nearNrChk.AutoSize = true;
+         this.nearNrChk.Checked = true;
+         this.nearNrChk.CheckState = System.Windows.Forms.CheckState.Checked;
+         this.nearNrChk.Location = new System.Drawing.Point(477, 21);
+         this.nearNrChk.Name = "nearNrChk";
+         this.nearNrChk.Size = new System.Drawing.Size(158, 21);
+         this.nearNrChk.TabIndex = 19;
+         this.nearNrChk.Text = "Nabije huisnummers";
+         this.nearNrChk.UseVisualStyleBackColor = true;
          // 
          // blanckoRadio
          // 
@@ -214,15 +249,6 @@
          this.closeBtn.Text = "Afsluiten";
          this.closeBtn.UseVisualStyleBackColor = true;
          this.closeBtn.Click += new System.EventHandler(this.closeBtn_Click);
-         // 
-         // progressBar
-         // 
-         this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-         this.progressBar.Location = new System.Drawing.Point(11, 645);
-         this.progressBar.Name = "progressBar";
-         this.progressBar.Size = new System.Drawing.Size(121, 23);
-         this.progressBar.TabIndex = 13;
          // 
          // gridPanel
          // 
@@ -652,6 +678,7 @@
          this.Name = "MainForm";
          this.Text = "Adressen Geocoderen";
          this.splitContainer.Panel1.ResumeLayout(false);
+         this.splitContainer.Panel1.PerformLayout();
          this.splitContainer.Panel2.ResumeLayout(false);
          this.splitContainer.Panel2.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
@@ -720,6 +747,8 @@
       private System.Windows.Forms.RadioButton blanckoRadio;
       private System.Windows.Forms.RadioButton centerRadio;
       private System.Windows.Forms.RadioButton randomRadio;
+      private System.Windows.Forms.CheckBox nearNrChk;
+      private System.Windows.Forms.Label progressLbl;
    }
 }
 
