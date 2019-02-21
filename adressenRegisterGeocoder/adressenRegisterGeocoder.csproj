@@ -114,6 +114,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="adres.cs" />
     <Compile Include="adressenRegister.cs" />
     <Compile Include="crsFactory.cs" />
     <Compile Include="csvReader.cs" />

@@ -297,14 +297,14 @@ namespace adressenRegisterGeocoder
       #endregion 
 
       #region validation 
-      private void searchAdres(string street, string housenr, string municapality, string postcode)
+      private void searchAdres(adres adr)
       {
-         if (municapality.Trim() == "" && postcode.Trim() == "") municapality = "Antwerpen";
+         if (adr.municapalname.Trim() == "" && adr.pc.Trim() == "") adr.municapalname = "Antwerpen";
 
-         dVal.inputNr = housenr;
-         dVal.inputStreet = street;
-         dVal.inputPC = postcode;
-         dVal.inputMunicipality = municapality;
+         dVal.inputNr = adr.housnr;
+         dVal.inputStreet = adr.street;
+         dVal.inputPC = adr.pc;
+         dVal.inputMunicipality = adr.municapalname;
          dVal.findAdres(nearNrChk.Checked);
       }
 
@@ -364,29 +364,32 @@ namespace adressenRegisterGeocoder
                e.Cancel = true;
                return;
             }
-            var straat = straatCol >= 0 ? (string)row.Cells[straatCol].Value : "";
-            var huisnr = huisnrCol >= 0 ? (string)row.Cells[huisnrCol].Value: "";
-            var gemeente = gemeenteCol >= 0  ? (string)row.Cells[gemeenteCol].Value: "";
-            var pc = pcCol >= 0 ? (string)row.Cells[pcCol].Value : "";
+            var adr = new adres();
 
-            searchAdres(straat, huisnr, gemeente, pc);
+            adr.street = straatCol >= 0 ? (string)row.Cells[straatCol].Value : "";
+            adr.housnr = huisnrCol >= 0 ? (string)row.Cells[huisnrCol].Value : "";
+            adr.municapalname = gemeenteCol >= 0 ? (string)row.Cells[gemeenteCol].Value : "";
+            adr.pc = pcCol >= 0 ? (string)row.Cells[pcCol].Value : "";
+
+            searchAdres(adr);
 
             validationWorker.ReportProgress(counter);
             counter++;
          }
       }
+
       private void validationWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
       {
          int count = e.ProgressPercentage;
 
-         dVal.adreValidation(randomRadio.Checked, centerRadio.Checked);
+         var adr = dVal.adreValidation(randomRadio.Checked, centerRadio.Checked);
 
-         rows2validate[count].Cells["validAdres"].Value = dVal.validadres;
-         rows2validate[count].Cells["info"].Value = dVal.info;
-         rows2validate[count].Cells["X"].Value = dVal.x;
-         rows2validate[count].Cells["Y"].Value = dVal.y;
+         rows2validate[count].Cells["validAdres"].Value = adr.validadres;
+         rows2validate[count].Cells["info"].Value = adr.info;
+         rows2validate[count].Cells["X"].Value = adr.x;
+         rows2validate[count].Cells["Y"].Value = adr.y;
 
-         foreach (DataGridViewCell cel in rows2validate[count].Cells) cel.Style.BackColor = dVal.colorCode;
+         foreach (DataGridViewCell cel in rows2validate[count].Cells) cel.Style.BackColor = adr.colorCode;
          progressBar.Value = count;
          progressLbl.Text = count.ToString() + " / " + progressBar.Maximum.ToString();
       }
@@ -397,6 +400,7 @@ namespace adressenRegisterGeocoder
          progressBar.Value = 0;
          progressLbl.Text = "";
       }
+      
       private void cancelValidationBtn_Click(object sender, EventArgs e)
       {
          validationWorker.CancelAsync();

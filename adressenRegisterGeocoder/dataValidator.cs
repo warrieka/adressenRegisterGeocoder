@@ -17,17 +17,13 @@ namespace adressenRegisterGeocoder
       public IEnumerable<AdresMatchItem> adresmatches;
       public SwaggerException errors;
 
-      public Color colorCode;
-      public string validadres;
-      public string info;
-      public double? x;
-      public double? y;
+      public adres outAdres;
+
       private geoUtils gu;
       private AdresMatchClient adresMatch;
 
       public dataValidator()
       {
-         colorCode = ColorTranslator.FromHtml("#F8E0E0");
          gu = new geoUtils( GeoAPI.GeometryServiceProvider.Instance.CreateGeometryFactory() );
          adresMatch = new AdresMatchClient();
       }
@@ -74,28 +70,27 @@ namespace adressenRegisterGeocoder
          return adresmatches;
       }
 
-      public void adreValidation(bool randomXY = false, bool centerXY = false)
+      public adres adreValidation(bool randomXY = false, bool centerXY = false)
       {
-         validadres = null; x = null; y = null;
-         info  = "0 | Geen overeenkomstige adressen gevonden.";
+         var adr = new adres() {info="0 | Geen overeenkomstige adressen gevonden."};
 
          // if erro occurs
          if (adresmatches == null && errors != null)
          {
-            info = "0 | " + errors.Response;
+            adr.info = "0 | " + errors.Response;
          }
          
          // adres found
          else if ((from n in adresmatches where n.VolledigAdres != null select n).Count() >= 1)
          {
             var adresMatch = adresmatches.Where(n => n.VolledigAdres != null).First(); //TODO multiple results
-            x = adresMatch.AdresPositie.Point1.Coordinates[0];
-            y = adresMatch.AdresPositie.Point1.Coordinates[1];
-            validadres = adresMatch.VolledigAdres.GeografischeNaam.Spelling;
-            info = (adresMatch.Score != null ? ((double)adresMatch.Score).ToString("000.0") : "") +
+            adr.x = adresMatch.AdresPositie.Point1.Coordinates[0];
+            adr.y = adresMatch.AdresPositie.Point1.Coordinates[1];
+            adr.validadres = adresMatch.VolledigAdres.GeografischeNaam.Spelling;
+            adr.info = (adresMatch.Score != null ? ((double)adresMatch.Score).ToString("000.0") : "") +
                " | " + adresMatch.PositieGeometrieMethode + " | " + adresMatch.PositieSpecificatie;
 
-            colorCode = ColorTranslator.FromHtml("#D0F5A9");
+            adr.colorCode = ColorTranslator.FromHtml("#D0F5A9");
          }
          //only street found
          else if ((from n in adresmatches where n.VolledigAdres == null && n.Straatnaam != null select n).Count() >= 1)
@@ -104,8 +99,8 @@ namespace adressenRegisterGeocoder
             string straatNaam = straat.Straatnaam.Straatnaam.GeografischeNaam.Spelling;
             string gemeente = straat.Gemeente.Gemeentenaam.GeografischeNaam.Spelling;
 
-            validadres = straatNaam + ", " + gemeente;
-            info = (straat.Score != null ? ((double)straat.Score).ToString("000.0") : "0") + " | Huisnummer niet gevonden | Straatnaam";
+            adr.validadres = straatNaam + ", " + gemeente;
+            adr.info = (straat.Score != null ? ((double)straat.Score).ToString("000.0") : "0") + " | Huisnummer niet gevonden | Straatnaam";
             if (randomXY)
             {
                int roadId = Convert.ToInt32(straat.Straatnaam.ObjectId);
@@ -113,20 +108,22 @@ namespace adressenRegisterGeocoder
                if (geom != null)
                {
                   var xy = gu.randomPointOnLine(geom);
-                  x = Math.Round(xy.X, 2);
-                  y = Math.Round(xy.Y, 2);
+                  adr.x = Math.Round(xy.X, 2);
+                  adr.y = Math.Round(xy.Y, 2);
                }
             }
             else if (centerXY)
             {
                int roadId = Convert.ToInt32(straat.Straatnaam.ObjectId);
                var geom = gu.getRoadByID(roadId);
-               x = Math.Round(geom.Centroid.X, 2);
-               y = Math.Round(geom.Centroid.Y, 2);
+               adr.x = Math.Round(geom.Centroid.X, 2);
+               adr.y = Math.Round(geom.Centroid.Y, 2);
             }
-            colorCode = ColorTranslator.FromHtml("#ffcc99");
+            adr.colorCode = ColorTranslator.FromHtml("#ffcc99");
 
          }
+         outAdres = adr;
+         return adr;
       }
    }
 }

@@ -97,7 +97,7 @@ SectionEnd
 
 Section "Uninstall"
 
-  Delete "$INSTDIR\Uninstall.exe"
+ 
 
   RMDir /r "$INSTDIR"
 
@@ -109,5 +109,6 @@ Section "Uninstall"
   Delete  "$SMPROGRAMS\${APPNAME}\${APPNAME}.lnk"
   RmDir /r  "$SMPROGRAMS\${APPNAME}"
   
-
+  Delete "$INSTDIR\Uninstall.exe"
+ 
 SectionEnd
