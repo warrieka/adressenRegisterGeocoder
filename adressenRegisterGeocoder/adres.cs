@@ -10,7 +10,8 @@ namespace adressenRegisterGeocoder
    class adres
    {
      public double? x = null;
-     public double? y = null; 
+     public double? y = null;
+     public string adresID = "";
      public Color colorCode = ColorTranslator.FromHtml("#F8E0E0");
      public string street = "";
      public string housnr = "";

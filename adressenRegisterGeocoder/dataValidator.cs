@@ -86,6 +86,7 @@ namespace adressenRegisterGeocoder
             var adresMatch = adresmatches.Where(n => n.VolledigAdres != null).First(); //TODO multiple results
             adr.x = adresMatch.AdresPositie.Point1.Coordinates[0];
             adr.y = adresMatch.AdresPositie.Point1.Coordinates[1];
+            adr.adresID = adresMatch.Identificator.Id;
             adr.validadres = adresMatch.VolledigAdres.GeografischeNaam.Spelling;
             adr.info = (adresMatch.Score != null ? ((double)adresMatch.Score).ToString("000.0") : "") +
                " | " + adresMatch.PositieGeometrieMethode + " | " + adresMatch.PositieSpecificatie;
@@ -98,6 +99,7 @@ namespace adressenRegisterGeocoder
             var straat = adresmatches.Where(n => n.Straatnaam != null).First();
             string straatNaam = straat.Straatnaam.Straatnaam.GeografischeNaam.Spelling;
             string gemeente = straat.Gemeente.Gemeentenaam.GeografischeNaam.Spelling;
+            adr.adresID = "https://data.vlaanderen.be/id/straatnaam/" + straat.Straatnaam.ObjectId; 
 
             adr.validadres = straatNaam + ", " + gemeente;
             adr.info = (straat.Score != null ? ((double)straat.Score).ToString("000.0") : "0") + " | Huisnummer niet gevonden | Straatnaam";

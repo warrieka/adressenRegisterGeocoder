@@ -89,6 +89,7 @@ namespace adressenRegisterGeocoder
 
          return true;
       }
+      
       private bool saveShp(string shpFile)
       {
          var features = new List<NetTopologySuite.Features.Feature>();
@@ -108,6 +109,7 @@ namespace adressenRegisterGeocoder
 
             for (int i = 0; i < row.Cells.Count; i++)
             {
+               //if (row.Cells[i].Value == null) continue;
                var val =  row.Cells[i].Value.ToString();
                var name = launderShpName(csvDataGrid.Columns[i].HeaderText, headerNamesCLean);
                headerNamesCLean.Add(name);
@@ -270,6 +272,7 @@ namespace adressenRegisterGeocoder
          //set extra columns
          var validatedRow = new DataGridViewTextBoxColumn() { HeaderText = "validAdres", Name = "validAdres", Width = 120, ReadOnly = true}; //DataGridViewComboBoxColumn
          var infoRow = new DataGridViewTextBoxColumn() { HeaderText = "info", Name = "info", Width = 120, ReadOnly = true};
+         var idRow = new DataGridViewTextBoxColumn() { HeaderText = "adresID", Name = "adresID", Width = 60, ReadOnly = true };
          var xRow = new DataGridViewTextBoxColumn() { HeaderText = "X", Name = "X", Width = 60, ReadOnly = true};
          xRow.DefaultCellStyle.Format = "F0";
          var yRow = new DataGridViewTextBoxColumn() { HeaderText = "Y", Name = "Y", Width = 60 , ReadOnly = true};
@@ -290,6 +293,7 @@ namespace adressenRegisterGeocoder
          }
          csvDataGrid.Columns.Add(validatedRow);
          csvDataGrid.Columns.Add(infoRow);
+         csvDataGrid.Columns.Add(idRow);
          csvDataGrid.Columns.Add(xRow);
          csvDataGrid.Columns.Add(yRow);
          dataloaded = true;
@@ -386,6 +390,7 @@ namespace adressenRegisterGeocoder
 
          rows2validate[count].Cells["validAdres"].Value = adr.validadres;
          rows2validate[count].Cells["info"].Value = adr.info;
+         rows2validate[count].Cells["adresID"].Value = adr.adresID; 
          rows2validate[count].Cells["X"].Value = adr.x;
          rows2validate[count].Cells["Y"].Value = adr.y;
 
