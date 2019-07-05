@@ -9,10 +9,7 @@ namespace adressenRegisterGeocoder
 {
    class dataValidator
    {
-      public string inputStreet;
-      public string inputNr;
-      public string inputPC;
-      public string inputMunicipality;
+      public adres inputAdres;
 
       public IEnumerable<AdresMatchItem> adresmatches;
       public SwaggerException errors;
@@ -32,8 +29,8 @@ namespace adressenRegisterGeocoder
       {
          try
          {
-            var adresses = adresMatch.Get("1", inputMunicipality, adresMatchRequest_straatnaam: inputStreet,
-                                 adresMatchRequest_postcode: inputPC, adresMatchRequest_huisnummer: inputNr);
+            var adresses = adresMatch.Get("1", inputAdres.municapalname, adresMatchRequest_straatnaam: inputAdres.street,
+                                 adresMatchRequest_postcode: inputAdres.pc, adresMatchRequest_huisnummer: inputAdres.housnr);
             adresmatches = adresses.AdresMatches;
             int numsFound = (from n in adresmatches where n.VolledigAdres != null select n).Count();
             int streetsFound = (from n in adresmatches where n.VolledigAdres == null && n.Straatnaam != null select n).Count();
@@ -42,14 +39,14 @@ namespace adressenRegisterGeocoder
             {
                int[] testRange = {-2, 2, -4, 4 };
                int numPart;
-               if (int.TryParse(Regex.Match(inputNr, @"^\d+").Value, out numPart))
+               if (int.TryParse(Regex.Match(inputAdres.housnr, @"^\d+").Value, out numPart))
                {
                   foreach (int i in testRange)
                   {
-                     inputNr = Convert.ToString(numPart + i);
+                     inputAdres.housnr = Convert.ToString(numPart + i);
 
-                     adresses = adresMatch.Get("1", inputMunicipality, adresMatchRequest_straatnaam: inputStreet,
-                                                    adresMatchRequest_postcode: inputPC, adresMatchRequest_huisnummer: inputNr);
+                     adresses = adresMatch.Get("1", inputAdres.municapalname, adresMatchRequest_straatnaam: inputAdres.street,
+                                                adresMatchRequest_postcode: inputAdres.pc, adresMatchRequest_huisnummer: inputAdres.housnr);
                      numsFound = (from n in adresses.AdresMatches where n.VolledigAdres != null select n).Count();
                      if (numsFound >= 1)
                      {
@@ -70,20 +67,21 @@ namespace adressenRegisterGeocoder
          return adresmatches;
       }
 
-      public adres adreValidation(bool randomXY = false, bool centerXY = false)
+      public adres adreValidation(bool randomXY = false, bool centerXY = false, IEnumerable<AdresMatchItem> adresItems = null)
       {
          var adr = new adres() {info="0 | Geen overeenkomstige adressen gevonden."};
+         var adresses = adresItems != null ? adresItems : adresmatches;
 
          // if erro occurs
-         if (adresmatches == null && errors != null)
+         if (adresses == null && errors != null)
          {
             adr.info = "0 | " + errors.Response;
          }
          
          // adres found
-         else if ((from n in adresmatches where n.VolledigAdres != null select n).Count() >= 1)
+         else if ((from n in adresses where n.VolledigAdres != null select n).Count() >= 1)
          {
-            var adresMatch = adresmatches.Where(n => n.VolledigAdres != null).First(); //TODO multiple results
+            var adresMatch = adresses.Where(n => n.VolledigAdres != null).First(); //TODO multiple results
             adr.x = adresMatch.AdresPositie.Point1.Coordinates[0];
             adr.y = adresMatch.AdresPositie.Point1.Coordinates[1];
             adr.adresID = adresMatch.Identificator.Id;
@@ -94,9 +92,9 @@ namespace adressenRegisterGeocoder
             adr.colorCode = ColorTranslator.FromHtml("#D0F5A9");
          }
          //only street found
-         else if ((from n in adresmatches where n.VolledigAdres == null && n.Straatnaam != null select n).Count() >= 1)
+         else if ((from n in adresses where n.VolledigAdres == null && n.Straatnaam != null select n).Count() >= 1)
          {
-            var straat = adresmatches.Where(n => n.Straatnaam != null).First();
+            var straat = adresses.Where(n => n.Straatnaam != null).First();
             string straatNaam = straat.Straatnaam.Straatnaam.GeografischeNaam.Spelling;
             string gemeente = straat.Gemeente.Gemeentenaam.GeografischeNaam.Spelling;
             adr.adresID = "https://data.vlaanderen.be/id/straatnaam/" + straat.Straatnaam.ObjectId; 

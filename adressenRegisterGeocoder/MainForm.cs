@@ -301,16 +301,6 @@ namespace adressenRegisterGeocoder
       #endregion 
 
       #region validation 
-      private void searchAdres(adres adr)
-      {
-         if (adr.municapalname.Trim() == "" && adr.pc.Trim() == "") adr.municapalname = "Antwerpen";
-
-         dVal.inputNr = adr.housnr;
-         dVal.inputStreet = adr.street;
-         dVal.inputPC = adr.pc;
-         dVal.inputMunicipality = adr.municapalname;
-         dVal.findAdres(nearNrChk.Checked);
-      }
 
       private void validateAllBtn_Click(object sender, EventArgs e)
       {
@@ -368,16 +358,19 @@ namespace adressenRegisterGeocoder
                e.Cancel = true;
                return;
             }
-            var adr = new adres();
 
+            var adr = new adres();
             adr.street = straatCol >= 0 ? (string)row.Cells[straatCol].Value : "";
             adr.housnr = huisnrCol >= 0 ? (string)row.Cells[huisnrCol].Value : "";
             adr.municapalname = gemeenteCol >= 0 ? (string)row.Cells[gemeenteCol].Value : "";
             adr.pc = pcCol >= 0 ? (string)row.Cells[pcCol].Value : "";
 
-            searchAdres(adr);
+            if (adr.municapalname.Trim() == "" && adr.pc.Trim() == "") adr.municapalname = "Antwerpen";
 
-            validationWorker.ReportProgress(counter);
+            dVal.inputAdres = adr;
+            var outAdres = dVal.findAdres(nearNrChk.Checked);
+
+            validationWorker.ReportProgress(counter, outAdres);
             counter++;
          }
       }
@@ -385,8 +378,9 @@ namespace adressenRegisterGeocoder
       private void validationWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
       {
          int count = e.ProgressPercentage;
+         var adresses = (IEnumerable<AdresMatchItem>)e.UserState;
 
-         var adr = dVal.adreValidation(randomRadio.Checked, centerRadio.Checked);
+         var adr = dVal.adreValidation(randomRadio.Checked, centerRadio.Checked, adresses);
 
          rows2validate[count].Cells["validAdres"].Value = adr.validadres;
          rows2validate[count].Cells["info"].Value = adr.info;
