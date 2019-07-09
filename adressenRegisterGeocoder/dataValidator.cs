@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,29 +10,21 @@ namespace adressenRegisterGeocoder
 {
    class dataValidator
    {
-      public adres inputAdres;
-
-      public IEnumerable<AdresMatchItem> adresmatches;
-      public SwaggerException errors;
-
-      public adres outAdres;
-
-      private geoUtils gu;
       private AdresMatchClient adresMatch;
 
       public dataValidator()
       {
-         gu = new geoUtils( GeoAPI.GeometryServiceProvider.Instance.CreateGeometryFactory() );
-         adresMatch = new AdresMatchClient();
+         this.adresMatch = new AdresMatchClient();
       }
 
-      public IEnumerable<AdresMatchItem> findAdres(bool nearNr = false)
+      public async Task<AdresMatchItem[]> findAdres(adres inputAdres, bool nearNr = false)
       {
+         List<AdresMatchItem> adresmatches;
          try
          {
-            var adresses = adresMatch.Get("1", inputAdres.municapalname, adresMatchRequest_straatnaam: inputAdres.street,
+            var adresses = await adresMatch.GetAsync("1", inputAdres.municapalname, adresMatchRequest_straatnaam: inputAdres.street,
                                  adresMatchRequest_postcode: inputAdres.pc, adresMatchRequest_huisnummer: inputAdres.housnr);
-            adresmatches = adresses.AdresMatches;
+            adresmatches = adresses.AdresMatches.ToList();
             int numsFound = (from n in adresmatches where n.VolledigAdres != null select n).Count();
             int streetsFound = (from n in adresmatches where n.VolledigAdres == null && n.Straatnaam != null select n).Count();
             
@@ -45,41 +38,32 @@ namespace adressenRegisterGeocoder
                   {
                      inputAdres.housnr = Convert.ToString(numPart + i);
 
-                     adresses = adresMatch.Get("1", inputAdres.municapalname, adresMatchRequest_straatnaam: inputAdres.street,
+                     adresses = await adresMatch.GetAsync("1", inputAdres.municapalname, adresMatchRequest_straatnaam: inputAdres.street,
                                                 adresMatchRequest_postcode: inputAdres.pc, adresMatchRequest_huisnummer: inputAdres.housnr);
                      numsFound = (from n in adresses.AdresMatches where n.VolledigAdres != null select n).Count();
                      if (numsFound >= 1)
                      {
-                        adresmatches = adresses.AdresMatches;
+                        adresmatches = adresses.AdresMatches.ToList();
                         break;
                      }
                   }
                }
             }
-
-            errors = null;
          }
-         catch (SwaggerException erro)
+         catch (SwaggerException)
          {
-            adresmatches = null;
-            errors = erro;
+            return null;
          }
-         return adresmatches;
+         return adresmatches.ToArray();
       }
 
-      public adres adreValidation(bool randomXY = false, bool centerXY = false, IEnumerable<AdresMatchItem> adresItems = null)
+      public adres adresValidation(AdresMatchItem[] adresses, bool randomXY = false, bool centerXY = false )
       {
          var adr = new adres() {info="0 | Geen overeenkomstige adressen gevonden."};
-         var adresses = adresItems != null ? adresItems : adresmatches;
-
-         // if erro occurs
-         if (adresses == null && errors != null)
-         {
-            adr.info = "0 | " + errors.Response;
-         }
+         var gu = new geoUtils(GeoAPI.GeometryServiceProvider.Instance.CreateGeometryFactory());
          
          // adres found
-         else if ((from n in adresses where n.VolledigAdres != null select n).Count() >= 1)
+        if ((from n in adresses where n.VolledigAdres != null select n).Count() >= 1)
          {
             var adresMatch = adresses.Where(n => n.VolledigAdres != null).First(); //TODO multiple results
             adr.x = adresMatch.AdresPositie.Point1.Coordinates[0];
@@ -122,7 +106,6 @@ namespace adressenRegisterGeocoder
             adr.colorCode = ColorTranslator.FromHtml("#ffcc99");
 
          }
-         outAdres = adr;
          return adr;
       }
    }

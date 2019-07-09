@@ -12,7 +12,7 @@ namespace adressenRegisterGeocoder
       IGeometryFactory gf;
       ShapefileDataReader wr;
       DbaseFileHeader wrheader;
-      
+
       public geoUtils(IGeometryFactory geomFac = null, string wrPath = "data/wr.shp")
       {
          gf = geomFac != null ? geomFac : GeoAPI.GeometryServiceProvider.Instance.CreateGeometryFactory();
@@ -80,5 +80,6 @@ namespace adressenRegisterGeocoder
          }
          return new List<string>(); //if nothing found return empty list
       }
+
    }
 }

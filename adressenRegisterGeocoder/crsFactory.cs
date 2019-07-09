@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using GeoAPI.Geometries;
+using GeoAPI.CoordinateSystems;
+using GeoAPI.CoordinateSystems.Transformations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,31 +18,31 @@ namespace adressenRegisterGeocoder
 
       private CoordinateSystemFactory cf = new CoordinateSystemFactory();
       private CoordinateTransformationFactory ct = new CoordinateTransformationFactory();
-      public GeoAPI.CoordinateSystems.ICoordinateSystem merc = ProjectedCoordinateSystem.WebMercator;
-      public GeoAPI.CoordinateSystems.ICoordinateSystem wgs = GeographicCoordinateSystem.WGS84;
-      public GeoAPI.CoordinateSystems.ICoordinateSystem lam72;
+      public ICoordinateSystem merc = ProjectedCoordinateSystem.WebMercator;
+      public ICoordinateSystem wgs = GeographicCoordinateSystem.WGS84;
+      public ICoordinateSystem lam72;
 
       public crsFactory() 
       {
           lam72 = cf.CreateFromWkt(lam72wkt);
       }
-      public GeoAPI.Geometries.Coordinate transformMerc2lam72(double x, double y)
+      public Coordinate transformMerc2lam72(double x, double y)
       {
          var trans = ct.CreateFromCoordinateSystems(merc, lam72);
          var xy = trans.MathTransform.Transform(new double[] { x, y });
          return new GeoAPI.Geometries.Coordinate(xy[0], xy[1]);
       }
-      public GeoAPI.Geometries.Coordinate transformMerc2lam72(GeoAPI.Geometries.Coordinate pt)
+      public Coordinate transformMerc2lam72(Coordinate pt)
       {
          return transformMerc2lam72(pt.X, pt.Y);
       }
-      public GeoAPI.Geometries.Coordinate transformlam72Merc(double x, double y)
+      public Coordinate transformlam72Merc(double x, double y)
       {
          var trans = ct.CreateFromCoordinateSystems(lam72, merc);
          var xy = trans.MathTransform.Transform(new double[] { x, y });
          return new GeoAPI.Geometries.Coordinate(xy[0], xy[1]);
       }
-      public GeoAPI.Geometries.Coordinate transformMlam72Merc(GeoAPI.Geometries.Coordinate pt)
+      public Coordinate transformMlam72Merc(Coordinate pt)
       {
          return transformMerc2lam72(pt.X, pt.Y);
       }

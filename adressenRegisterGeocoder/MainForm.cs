@@ -35,10 +35,11 @@ namespace adressenRegisterGeocoder
  
       VectorLayer vlay;
       DataGridViewRow[] rows2validate;
-      dataValidator dVal;
 
       bool dataloaded = false;
       bool prikLoc = false;
+      bool isBuzy = false;
+      bool canceling = false;
 
       public MainForm()
       {
@@ -46,7 +47,9 @@ namespace adressenRegisterGeocoder
          initMap();
          sepCbx.SelectedIndex = 0;
          encodingCbx.SelectedIndex = 0;
-         dVal = new dataValidator();
+
+         //extra events
+         this.closeBtn.Click += (sender, e) => this.Close();
          this.FormClosing += MainForm_FormClosing;
       }
 
@@ -311,14 +314,12 @@ namespace adressenRegisterGeocoder
             MessageBox.Show(this, "Stel eerst de adres kolommen in.", "Waarschuwing");
             return;
          }
-         if (validationWorker.IsBusy != true)
+         if (isBuzy == false)
          {
             setCols();
-            toggleInteraction(false);
             rows2validate = new DataGridViewRow[csvDataGrid.Rows.Count];
             csvDataGrid.Rows.CopyTo(rows2validate, 0);
-            progressBar.Maximum = csvDataGrid.Rows.Count;
-            validationWorker.RunWorkerAsync(rows2validate);
+            doGeocode(rows2validate);
          }
       }
 
@@ -332,83 +333,70 @@ namespace adressenRegisterGeocoder
             return;
          }
          
-         if (validationWorker.IsBusy != true)
+         if (isBuzy == false)
          {
             setCols();
-            toggleInteraction(false);
             rows2validate = new DataGridViewRow[csvDataGrid.SelectedRows.Count];
-            csvDataGrid.SelectedRows.CopyTo(rows2validate, 0); //async so selection may change
-            progressBar.Maximum = csvDataGrid.SelectedRows.Count;
+            csvDataGrid.SelectedRows.CopyTo(rows2validate, 0);
             csvDataGrid.ClearSelection();
-            validationWorker.RunWorkerAsync(rows2validate);
+            doGeocode(rows2validate);
          }
       }
       #endregion
 
       #region worker
-      private void validationWorker_DoWork(object sender, DoWorkEventArgs e)
+
+      async void doGeocode(DataGridViewRow[] rows)
       {
-         var rows = (DataGridViewRow[])e.Argument;
-         var counter = 0;
+         toggleInteraction(false);
+
+         progressBar.Maximum = rows.Count();
+         progressBar.Value = 0;
 
          foreach (DataGridViewRow row in rows)
          {
-            if (validationWorker.CancellationPending)
+            if (canceling)
             {
-               e.Cancel = true;
-               return;
+               canceling = false;
+               break;
             }
 
-            var adr = new adres();
-            adr.street = straatCol >= 0 ? (string)row.Cells[straatCol].Value : "";
-            adr.housnr = huisnrCol >= 0 ? (string)row.Cells[huisnrCol].Value : "";
-            adr.municapalname = gemeenteCol >= 0 ? (string)row.Cells[gemeenteCol].Value : "";
-            adr.pc = pcCol >= 0 ? (string)row.Cells[pcCol].Value : "";
+            var inAdres = new adres();
+            inAdres.street = straatCol >= 0 ? (string)row.Cells[straatCol].Value : "";
+            inAdres.housnr = huisnrCol >= 0 ? (string)row.Cells[huisnrCol].Value : "";
+            inAdres.municapalname = gemeenteCol >= 0 ? (string)row.Cells[gemeenteCol].Value : "";
+            inAdres.pc = pcCol >= 0 ? (string)row.Cells[pcCol].Value : "";
 
-            if (adr.municapalname.Trim() == "" && adr.pc.Trim() == "") adr.municapalname = "Antwerpen";
+            if (inAdres.municapalname.Trim() == "" && inAdres.pc.Trim() == "") inAdres.municapalname = "Antwerpen";
 
-            dVal.inputAdres = adr;
-            var outAdres = dVal.findAdres(nearNrChk.Checked);
+            var dVal = new dataValidator();
+            var adresses = await dVal.findAdres(inAdres , nearNrChk.Checked);
 
-            validationWorker.ReportProgress(counter, outAdres);
-            counter++;
+            var adr = dVal.adresValidation(adresses, randomRadio.Checked, centerRadio.Checked);
+            row.Cells["validAdres"].Value = adr.validadres;
+            row.Cells["info"].Value = adr.info;
+            row.Cells["adresID"].Value = adr.adresID;
+            row.Cells["X"].Value = adr.x;
+            row.Cells["Y"].Value = adr.y;
+
+            foreach (DataGridViewCell cel in row.Cells) cel.Style.BackColor = adr.colorCode;
+
+            progressBar.Value++;
          }
-      }
-
-      private void validationWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-      {
-         int count = e.ProgressPercentage;
-         var adresses = (IEnumerable<AdresMatchItem>)e.UserState;
-
-         var adr = dVal.adreValidation(randomRadio.Checked, centerRadio.Checked, adresses);
-
-         rows2validate[count].Cells["validAdres"].Value = adr.validadres;
-         rows2validate[count].Cells["info"].Value = adr.info;
-         rows2validate[count].Cells["adresID"].Value = adr.adresID; 
-         rows2validate[count].Cells["X"].Value = adr.x;
-         rows2validate[count].Cells["Y"].Value = adr.y;
-
-         foreach (DataGridViewCell cel in rows2validate[count].Cells) cel.Style.BackColor = adr.colorCode;
-         progressBar.Value = count;
-         progressLbl.Text = count.ToString() + " / " + progressBar.Maximum.ToString();
-      }
-
-      private void validationWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-      {
-         toggleInteraction(true);
          progressBar.Value = 0;
-         progressLbl.Text = "";
+         toggleInteraction(true);
       }
-      
+
       private void cancelValidationBtn_Click(object sender, EventArgs e)
       {
-         validationWorker.CancelAsync();
+         canceling = true;
       }
       #endregion
 
       #region set values
       private void toggleInteraction(bool active)
       {
+         isBuzy = !active; 
          csvBox.Enabled = active;
          adresSettingsBox.Enabled = active;
          manualLocBtn.Enabled = active;
@@ -503,16 +491,12 @@ namespace adressenRegisterGeocoder
       }
       #endregion
 
-      #region close_event
+      #region FormClosing_event
       void MainForm_FormClosing(object sender, FormClosingEventArgs e)
       {
          var window = MessageBox.Show(
              "Ben u zeker dat wilt afsluiten?", "Afsluiten", MessageBoxButtons.YesNo);
          e.Cancel = (window == DialogResult.No);
-      }
-      private void closeBtn_Click(object sender, EventArgs e)
-      {
-            this.Close();
       }
       #endregion
 
