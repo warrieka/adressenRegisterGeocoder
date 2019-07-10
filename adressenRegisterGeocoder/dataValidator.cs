@@ -50,9 +50,10 @@ namespace adressenRegisterGeocoder
                }
             }
          }
-         catch (SwaggerException)
+         catch (SwaggerException e)
          {
-            return null;
+            System.Diagnostics.Debug.WriteLine(e.Message);
+            return new AdresMatchItem[0]; //empty array
          }
          return adresmatches.ToArray();
       }
@@ -100,8 +101,12 @@ namespace adressenRegisterGeocoder
             {
                int roadId = Convert.ToInt32(straat.Straatnaam.ObjectId);
                var geom = gu.getRoadByID(roadId);
-               adr.x = Math.Round(geom.Centroid.X, 2);
-               adr.y = Math.Round(geom.Centroid.Y, 2);
+               if (geom != null)
+               {
+                  adr.x = Math.Round(geom.Centroid.X, 2);
+                  adr.y = Math.Round(geom.Centroid.Y, 2);
+               }
+
             }
             adr.colorCode = ColorTranslator.FromHtml("#ffcc99");
 
