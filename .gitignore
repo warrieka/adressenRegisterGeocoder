@@ -4,8 +4,8 @@
 *.doc
 *.docx
 *.xlsx
-/data/
-/adressenRegisterGeocoder/data/wr.*
+data/
+adressenRegisterGeocoder/data/wr.*
 
 Deliverable/
 images/*.ico
