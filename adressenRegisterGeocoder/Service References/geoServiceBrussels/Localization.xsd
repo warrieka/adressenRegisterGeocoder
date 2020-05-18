@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:tns="http://localize/faults" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://localize/faults" xmlns="http://www.w3.org/2001/XMLSchema">
+  <annotation>
+    <documentation>
+			##########################
+			### SOAP Error Message Type
+			##########################
+		</documentation>
+  </annotation>
+  <element name="inputMessageValidationFault" type="tns:InputMessageValidationFaultType" />
+  <complexType name="InputMessageValidationFaultType">
+    <attribute name="msg" type="string" />
+  </complexType>
+</schema>

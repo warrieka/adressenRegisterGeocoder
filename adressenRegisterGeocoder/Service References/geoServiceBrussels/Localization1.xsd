@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:tns="http://localize/xsd" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://localize/xsd" xmlns="http://www.w3.org/2001/XMLSchema">
+  <annotation>
+    <documentation>
+			########################################
+			### Geolocalisation Release 2 WSDL operations
+			########################################
+		</documentation>
+  </annotation>
+  <element name="getStreetsExtent">
+    <complexType>
+      <sequence>
+        <element name="language" type="string" />
+        <element name="street" type="tns:StreetType" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getStreetsExtentResponse">
+    <complexType>
+      <sequence>
+        <element name="language" type="string" />
+        <element name="street" type="tns:StreetType" />
+        <element name="extent" type="tns:ExtensionType" />
+        <element name="geocodeMatchCode" type="float" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getXYCoord">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="address" type="tns:AddressType" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getXYCoordResponse">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="address" type="tns:AddressType" />
+        <element name="adNc" type="string" />
+        <element name="point" type="tns:PointType" />
+        <element name="geocodeMatchCode" type="float" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getAddressesFields">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="address" type="tns:AddressType" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getAddressesFieldsResponse">
+    <complexType>
+      <sequence>
+        <element minOccurs="0" maxOccurs="unbounded" name="addressesFieldsResponse">
+          <complexType>
+            <sequence>
+              <element name="language" type="language" />
+              <element name="address" type="tns:AddressType" />
+              <element name="adNc" type="string" />
+              <element name="point" type="tns:PointType" />
+              <element name="geocodeMatchCode" type="float" />
+            </sequence>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getStreetsAutoComplete">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="address" type="string" />
+        <element name="city" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getStreetsAutoCompleteResponse">
+    <complexType>
+      <sequence>
+        <element minOccurs="0" maxOccurs="unbounded" name="streetsAutoCompleteResponse">
+          <complexType>
+            <sequence>
+              <element name="language" type="language" />
+              <element name="address" type="tns:AddressType" />
+              <element name="adNc" type="string" />
+              <element name="point" type="tns:PointType" />
+              <element name="geocodeMatchCode" type="float" />
+            </sequence>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getAddresses">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="address" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getAddressesResponse">
+    <complexType>
+      <sequence>
+        <element minOccurs="0" maxOccurs="unbounded" name="addressesResponse">
+          <complexType>
+            <sequence>
+              <element name="language" type="language" />
+              <element name="address" type="tns:AddressType" />
+              <element name="adNc" type="string" />
+              <element name="point" type="tns:PointType" />
+              <element name="geocodeMatchCode" type="float" />
+            </sequence>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getAddressFromXY">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="point" type="tns:PointType" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getAddressFromXYResponse">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="address" type="tns:AddressType" />
+        <element name="adNc" type="string" />
+        <element name="addressPointId" type="string" />
+        <element name="streetAxisId" type="string" />
+        <element name="streetSectionId" type="string" />
+        <element name="point" type="tns:PointType" />
+        <element name="geocodeMatchCode" type="float" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getAddressFromAdNc">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="adNc" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getAddressFromAdNcResponse">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="address" type="tns:AddressType" />
+        <element name="point" type="tns:PointType" />
+        <element name="geocodeMatchCode" type="float" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getStreetFromID">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="streetId" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getStreetFromIDResponse">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="street" type="tns:StreetType" />
+        <element name="geocodeMatchCode" type="float" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getPOITypes" />
+  <element name="getPOITypesResponse">
+    <complexType>
+      <sequence>
+        <element maxOccurs="unbounded" name="poiTypesResponse" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getPOI">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="name" type="string" />
+        <element name="type" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getPOIResponse">
+    <complexType>
+      <sequence>
+        <element minOccurs="0" maxOccurs="unbounded" name="poiResponse">
+          <complexType>
+            <sequence>
+              <element name="language" type="language" />
+              <element name="name" type="string" />
+              <element name="type" type="string" />
+              <element name="point" type="tns:PointType" />
+              <element name="geocodeMatchCode" type="float" />
+            </sequence>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getPOIByType">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="type" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getPOIByTypeResponse">
+    <complexType>
+      <sequence>
+        <element minOccurs="0" maxOccurs="unbounded" name="poiByTypeResponse">
+          <complexType>
+            <sequence>
+              <element name="language" type="language" />
+              <element name="id" type="string" />
+              <element name="name" type="string" />
+              <element name="comment" type="string" />
+              <element name="type" type="string" />
+              <element name="point" type="tns:PointType" />
+              <element name="geocodeMatchCode" type="float" />
+            </sequence>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getStreetFromPwnc">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="pwnc" type="string" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getStreetFromPwncResponse">
+    <complexType>
+      <sequence>
+        <element minOccurs="0" maxOccurs="unbounded" name="streetFromPwncResponse">
+          <complexType>
+            <sequence>
+              <element name="language" type="language" />
+              <element name="name" type="string" />
+              <element name="pwnc" type="string" />
+              <element name="point" type="tns:PointType" />
+              <element name="geocodeMatchCode" type="float" />
+            </sequence>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getPOIFromXY">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="type" type="string" />
+        <element name="point" type="tns:PointType" />
+      </sequence>
+    </complexType>
+  </element>
+  <element name="getPOIFromXYResponse">
+    <complexType>
+      <sequence>
+        <element name="language" type="language" />
+        <element name="type" type="string" />
+        <element name="name" type="string" />
+        <element name="point" type="tns:PointType" />
+        <element name="geocodeMatchCode" type="float" />
+      </sequence>
+    </complexType>
+  </element>
+  <annotation>
+    <documentation>
+			###################################
+			### Geolocalisation Release 2 XML Types
+			###################################
+		</documentation>
+  </annotation>
+  <complexType name="StreetType">
+    <sequence>
+      <element name="name" type="string" />
+      <element name="postCode" type="string" />
+      <element minOccurs="0" name="municipality" type="string" />
+      <element name="Id" type="string" />
+      <element minOccurs="0" name="pwnc" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="AddressType">
+    <sequence>
+      <element name="street" type="tns:StreetType" />
+      <element name="number" type="string" />
+    </sequence>
+  </complexType>
+  <complexType name="PointType">
+    <sequence>
+      <element name="x" type="double" />
+      <element name="y" type="double" />
+    </sequence>
+  </complexType>
+  <complexType name="ExtensionType">
+    <sequence>
+      <element name="xmax" type="double" />
+      <element name="xmin" type="double" />
+      <element name="ymax" type="double" />
+      <element name="ymin" type="double" />
+    </sequence>
+  </complexType>
+</schema>

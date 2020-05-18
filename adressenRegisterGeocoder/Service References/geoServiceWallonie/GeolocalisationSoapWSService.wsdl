@@ -1,0 +1,1311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://soap.ws.geolocalisation.nsi.be/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="GeolocalisationSoapWSService" targetNamespace="http://soap.ws.geolocalisation.nsi.be/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://soap.ws.geolocalisation.nsi.be/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="AbstractResponse" type="tns:abstractResponse" />
+      <xs:element name="Batch" type="tns:batch" />
+      <xs:element name="BatchRow" type="tns:batchRow" />
+      <xs:element name="Commune" type="tns:commune" />
+      <xs:element name="ListeCommunes" type="tns:listeCommunes" />
+      <xs:element name="ListeLocalites" type="tns:listeLocalites" />
+      <xs:element name="ListeLocalitesWithProvince" type="tns:listeLocalitesWithProvince" />
+      <xs:element name="ListePositionsScore" type="tns:listePositionsScore" />
+      <xs:element name="ListeProvinces" type="tns:listeProvinces" />
+      <xs:element name="ListeResultats" type="tns:listeResultats" />
+      <xs:element name="ListeRues" type="tns:listeRues" />
+      <xs:element name="ListeRuesScore" type="tns:listeRuesScore" />
+      <xs:element name="Localite" nillable="true" type="xs:anyType" />
+      <xs:element name="NearestRue" type="tns:nearestRue" />
+      <xs:element name="Position" nillable="true" type="xs:anyType" />
+      <xs:element name="Province" type="tns:province" />
+      <xs:element name="Rue" nillable="true" type="xs:anyType" />
+      <xs:element name="SimpleResponse" type="tns:simpleResponse" />
+      <xs:element name="getListPositionsByCpAndRue" type="tns:getListPositionsByCpAndRue" />
+      <xs:element name="getListPositionsByCpAndRueResponse" type="tns:getListPositionsByCpAndRueResponse" />
+      <xs:element name="getListPositionsByCpLocaliteRueAndNumero" type="tns:getListPositionsByCpLocaliteRueAndNumero" />
+      <xs:element name="getListPositionsByCpLocaliteRueAndNumeroResponse" type="tns:getListPositionsByCpLocaliteRueAndNumeroResponse" />
+      <xs:element name="getListPositionsByCpRueAndNumero" type="tns:getListPositionsByCpRueAndNumero" />
+      <xs:element name="getListPositionsByCpRueAndNumeroResponse" type="tns:getListPositionsByCpRueAndNumeroResponse" />
+      <xs:element name="getListPositionsBySmartGeocoding" type="tns:getListPositionsBySmartGeocoding" />
+      <xs:element name="getListPositionsBySmartGeocodingResponse" type="tns:getListPositionsBySmartGeocodingResponse" />
+      <xs:element name="getListeCommunes" type="tns:getListeCommunes" />
+      <xs:element name="getListeCommunesResponse" type="tns:getListeCommunesResponse" />
+      <xs:element name="getListeCpsByProvince" type="tns:getListeCpsByProvince" />
+      <xs:element name="getListeCpsByProvinceResponse" type="tns:getListeCpsByProvinceResponse" />
+      <xs:element name="getListeLocalites" type="tns:getListeLocalites" />
+      <xs:element name="getListeLocalitesByCp" type="tns:getListeLocalitesByCp" />
+      <xs:element name="getListeLocalitesByCpResponse" type="tns:getListeLocalitesByCpResponse" />
+      <xs:element name="getListeLocalitesByIns" type="tns:getListeLocalitesByIns" />
+      <xs:element name="getListeLocalitesByInsResponse" type="tns:getListeLocalitesByInsResponse" />
+      <xs:element name="getListeLocalitesByProvince" type="tns:getListeLocalitesByProvince" />
+      <xs:element name="getListeLocalitesByProvinceResponse" type="tns:getListeLocalitesByProvinceResponse" />
+      <xs:element name="getListeLocalitesResponse" type="tns:getListeLocalitesResponse" />
+      <xs:element name="getListeProvincesRW" type="tns:getListeProvincesRW" />
+      <xs:element name="getListeProvincesRWResponse" type="tns:getListeProvincesRWResponse" />
+      <xs:element name="getListeRuesByCommune" type="tns:getListeRuesByCommune" />
+      <xs:element name="getListeRuesByCommuneResponse" type="tns:getListeRuesByCommuneResponse" />
+      <xs:element name="getListeRuesByCp" type="tns:getListeRuesByCp" />
+      <xs:element name="getListeRuesByCpAndNomApprox" type="tns:getListeRuesByCpAndNomApprox" />
+      <xs:element name="getListeRuesByCpAndNomApproxResponse" type="tns:getListeRuesByCpAndNomApproxResponse" />
+      <xs:element name="getListeRuesByCpResponse" type="tns:getListeRuesByCpResponse" />
+      <xs:element name="getListeRuesByLocalite" type="tns:getListeRuesByLocalite" />
+      <xs:element name="getListeRuesByLocaliteAndNomApprox" type="tns:getListeRuesByLocaliteAndNomApprox" />
+      <xs:element name="getListeRuesByLocaliteAndNomApproxResponse" type="tns:getListeRuesByLocaliteAndNomApproxResponse" />
+      <xs:element name="getListeRuesByLocaliteResponse" type="tns:getListeRuesByLocaliteResponse" />
+      <xs:element name="getListeRuesOfAllCpsOfCommuneByCp" type="tns:getListeRuesOfAllCpsOfCommuneByCp" />
+      <xs:element name="getListeRuesOfAllCpsOfCommuneByCpAndNomApprox" type="tns:getListeRuesOfAllCpsOfCommuneByCpAndNomApprox" />
+      <xs:element name="getListeRuesOfAllCpsOfCommuneByCpAndNomApproxResponse" type="tns:getListeRuesOfAllCpsOfCommuneByCpAndNomApproxResponse" />
+      <xs:element name="getListeRuesOfAllCpsOfCommuneByCpResponse" type="tns:getListeRuesOfAllCpsOfCommuneByCpResponse" />
+      <xs:element name="getNearestPosition" type="tns:getNearestPosition" />
+      <xs:element name="getNearestPositionResponse" type="tns:getNearestPositionResponse" />
+      <xs:element name="getNearestRue" type="tns:getNearestRue" />
+      <xs:element name="getNearestRueResponse" type="tns:getNearestRueResponse" />
+      <xs:element name="getPositionByCpAndRue" type="tns:getPositionByCpAndRue" />
+      <xs:element name="getPositionByCpAndRueResponse" type="tns:getPositionByCpAndRueResponse" />
+      <xs:element name="getPositionByCpLocaliteRueAndNumero" type="tns:getPositionByCpLocaliteRueAndNumero" />
+      <xs:element name="getPositionByCpLocaliteRueAndNumeroResponse" type="tns:getPositionByCpLocaliteRueAndNumeroResponse" />
+      <xs:element name="getPositionByCpRueAndNumero" type="tns:getPositionByCpRueAndNumero" />
+      <xs:element name="getPositionByCpRueAndNumeroResponse" type="tns:getPositionByCpRueAndNumeroResponse" />
+      <xs:element name="getPositionBySmartGeocoding" type="tns:getPositionBySmartGeocoding" />
+      <xs:element name="getPositionBySmartGeocodingResponse" type="tns:getPositionBySmartGeocodingResponse" />
+      <xs:element name="getProvinceByCp" type="tns:getProvinceByCp" />
+      <xs:element name="getProvinceByCpResponse" type="tns:getProvinceByCpResponse" />
+      <xs:element name="getVersion" type="tns:getVersion" />
+      <xs:element name="getVersionResponse" type="tns:getVersionResponse" />
+      <xs:element name="processBatchRowGeolocalisation" type="tns:processBatchRowGeolocalisation" />
+      <xs:element name="processBatchRowGeolocalisationResponse" type="tns:processBatchRowGeolocalisationResponse" />
+      <xs:element name="rueAbstract" type="tns:rueAbstract" />
+      <xs:element name="searchAll" type="tns:searchAll" />
+      <xs:element name="searchAllResponse" type="tns:searchAllResponse" />
+      <xs:element name="searchCommunes" type="tns:searchCommunes" />
+      <xs:element name="searchCommunesResponse" type="tns:searchCommunesResponse" />
+      <xs:element name="searchLocalites" type="tns:searchLocalites" />
+      <xs:element name="searchLocalitesResponse" type="tns:searchLocalitesResponse" />
+      <xs:element name="searchPosition" type="tns:searchPosition" />
+      <xs:element name="searchPositionResponse" type="tns:searchPositionResponse" />
+      <xs:element name="searchPositionScored" type="tns:searchPositionScored" />
+      <xs:element name="searchPositionScoredResponse" type="tns:searchPositionScoredResponse" />
+      <xs:element name="searchRues" type="tns:searchRues" />
+      <xs:element name="searchRuesResponse" type="tns:searchRuesResponse" />
+      <xs:complexType name="getListeCommunes">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="getListeCommunesResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeCommunes" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listeCommunes">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="communes" nillable="true" type="tns:commune" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="abstractResponse" abstract="true">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="errorCode" type="xs:int" />
+          <xs:element minOccurs="0" name="errorMsg" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="commune">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="cps" nillable="true" type="xs:int" />
+              <xs:element minOccurs="0" name="ins" type="xs:int" />
+              <xs:element minOccurs="0" name="nom" type="xs:string" />
+              <xs:element minOccurs="0" name="xMax" type="xs:double" />
+              <xs:element minOccurs="0" name="xMin" type="xs:double" />
+              <xs:element minOccurs="0" name="yMax" type="xs:double" />
+              <xs:element minOccurs="0" name="yMin" type="xs:double" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="searchPosition">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="search" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchPositionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:position" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="position">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="adresse" type="xs:string" />
+              <xs:element minOccurs="0" name="cote" type="xs:string" />
+              <xs:element minOccurs="0" name="fraction" type="xs:double" />
+              <xs:element minOccurs="0" name="idTroncon" type="xs:int" />
+              <xs:element minOccurs="0" name="infoMsg" type="xs:string" />
+              <xs:element minOccurs="0" name="num" type="xs:string" />
+              <xs:element minOccurs="0" name="rue" type="tns:rue" />
+              <xs:element minOccurs="0" name="x" type="xs:double" />
+              <xs:element minOccurs="0" name="y" type="xs:double" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="rue">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="commune" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="cps" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="idTronconCentral" type="xs:int" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="localites" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="nom" type="xs:string" />
+          <xs:element minOccurs="0" name="xMax" type="xs:double" />
+          <xs:element minOccurs="0" name="xMin" type="xs:double" />
+          <xs:element minOccurs="0" name="yMax" type="xs:double" />
+          <xs:element minOccurs="0" name="yMin" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getProvinceByCp">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getProvinceByCpResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:province" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="province">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="nom" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getPositionBySmartGeocoding">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="localite" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+          <xs:element minOccurs="0" name="numero" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPositionBySmartGeocodingResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:positionScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="positionScore">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:position">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="score" type="xs:int" />
+              <xs:element minOccurs="0" name="service" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getListeLocalitesByCp">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeLocalitesByCpResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeLocalites" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listeLocalites">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="localites" nillable="true" type="tns:localite" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="localite">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="commune" type="xs:string" />
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="cps" nillable="true" type="xs:int" />
+              <xs:element minOccurs="0" name="nom" type="xs:string" />
+              <xs:element minOccurs="0" name="xMax" type="xs:double" />
+              <xs:element minOccurs="0" name="xMin" type="xs:double" />
+              <xs:element minOccurs="0" name="yMax" type="xs:double" />
+              <xs:element minOccurs="0" name="yMin" type="xs:double" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getNearestPosition">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="x" type="xs:double" />
+          <xs:element minOccurs="0" name="y" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNearestPositionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:position" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeProvincesRW">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="getListeProvincesRWResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeProvinces" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listeProvinces">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="provinces" nillable="true" type="tns:province" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesOfAllCpsOfCommuneByCp">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesOfAllCpsOfCommuneByCpResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeRues" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listeRues">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="rues" nillable="true" type="tns:rue" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getNearestRue">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="x" type="xs:string" />
+          <xs:element minOccurs="0" name="y" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getNearestRueResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:nearestRue" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="nearestRue">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="rue" type="tns:rue" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesOfAllCpsOfCommuneByCpAndNomApprox">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="nomRueApprox" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesOfAllCpsOfCommuneByCpAndNomApproxResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeRuesScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listeRuesScore">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="rues" nillable="true" type="tns:rueScore" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="rueScore">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:rueAbstract">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="score" type="xs:int" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="rueAbstract">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:rue">
+            <xs:sequence />
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getListPositionsByCpRueAndNumero">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+          <xs:element minOccurs="0" name="numero" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListPositionsByCpRueAndNumeroResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listePositionsScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listePositionsScore">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="positions" nillable="true" type="tns:positionScore" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getListeLocalitesByProvince">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="province" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeLocalitesByProvinceResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeLocalitesWithProvince" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listeLocalitesWithProvince">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="localites" nillable="true" type="tns:localiteWithProvince" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="localiteWithProvince">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:localite">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="province" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="searchCommunes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="search" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchCommunesResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeCommunes" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchPositionScored">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="search" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchPositionScoredResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:positionScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchAll">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="search" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchAllResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeResultats" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="listeResultats">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="resultats" nillable="true" type="xs:anyType" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getPositionByCpRueAndNumero">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+          <xs:element minOccurs="0" name="numero" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPositionByCpRueAndNumeroResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:positionScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPositionByCpLocaliteRueAndNumero">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="localite" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+          <xs:element minOccurs="0" name="numero" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPositionByCpLocaliteRueAndNumeroResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:positionScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="processBatchRowGeolocalisation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="localite" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+          <xs:element minOccurs="0" name="numero" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="processBatchRowGeolocalisationResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:batch" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="batch">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="batchRows" nillable="true" type="tns:batchRow" />
+              <xs:element minOccurs="0" name="codePostalFieldIdx" type="xs:int" />
+              <xs:element minOccurs="0" name="fieldsLabels" type="xs:string" />
+              <xs:element minOccurs="0" name="localiteFieldIdx" type="xs:int" />
+              <xs:element minOccurs="0" name="message" type="xs:string" />
+              <xs:element minOccurs="0" name="numeroFieldIdx" type="xs:int" />
+              <xs:element minOccurs="0" name="rueFieldIdx" type="xs:int" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="batchRow">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="adresse" type="xs:string" />
+          <xs:element minOccurs="0" name="commune" type="xs:string" />
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="f1" type="xs:string" />
+          <xs:element minOccurs="0" name="f2" type="xs:string" />
+          <xs:element minOccurs="0" name="f3" type="xs:string" />
+          <xs:element minOccurs="0" name="f4" type="xs:string" />
+          <xs:element minOccurs="0" name="localite" type="xs:string" />
+          <xs:element minOccurs="0" name="message" type="xs:string" />
+          <xs:element minOccurs="0" name="numero" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+          <xs:element minOccurs="0" name="score" type="xs:int" />
+          <xs:element minOccurs="0" name="usedService" type="xs:string" />
+          <xs:element minOccurs="0" name="x" type="xs:double" />
+          <xs:element minOccurs="0" name="y" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeLocalitesByIns">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ins" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeLocalitesByInsResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeLocalites" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByLocalite">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="localite" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByLocaliteResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeRues" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeLocalites">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="getListeLocalitesResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeLocalites" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByLocaliteAndNomApprox">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="localite" type="xs:string" />
+          <xs:element minOccurs="0" name="nomRueApprox" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByLocaliteAndNomApproxResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeRuesScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListPositionsBySmartGeocoding">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="localite" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+          <xs:element minOccurs="0" name="numero" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListPositionsBySmartGeocodingResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listePositionsScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListPositionsByCpLocaliteRueAndNumero">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="localite" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+          <xs:element minOccurs="0" name="numero" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListPositionsByCpLocaliteRueAndNumeroResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listePositionsScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByCommune">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="commune" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByCommuneResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeRues" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByCp">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByCpResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeRues" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchRues">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="search" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchRuesResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeRues" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPositionByCpAndRue">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getPositionByCpAndRueResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:positionScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchLocalites">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="search" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="searchLocalitesResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeLocalites" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeCpsByProvince">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="province" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeCpsByProvinceResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeResultats" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListPositionsByCpAndRue">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="rue" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListPositionsByCpAndRueResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listePositionsScore" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getVersion">
+        <xs:sequence />
+      </xs:complexType>
+      <xs:complexType name="getVersionResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:simpleResponse" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="simpleResponse">
+        <xs:complexContent mixed="false">
+          <xs:extension base="tns:abstractResponse">
+            <xs:sequence>
+              <xs:element minOccurs="0" name="reponse" type="xs:string" />
+            </xs:sequence>
+          </xs:extension>
+        </xs:complexContent>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByCpAndNomApprox">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="cp" type="xs:string" />
+          <xs:element minOccurs="0" name="nomRueApprox" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="getListeRuesByCpAndNomApproxResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:listeRuesScore" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getNearestPosition">
+    <wsdl:part name="parameters" element="tns:getNearestPosition" />
+  </wsdl:message>
+  <wsdl:message name="getListPositionsByCpRueAndNumeroResponse">
+    <wsdl:part name="parameters" element="tns:getListPositionsByCpRueAndNumeroResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchPosition">
+    <wsdl:part name="parameters" element="tns:searchPosition" />
+  </wsdl:message>
+  <wsdl:message name="getPositionByCpRueAndNumero">
+    <wsdl:part name="parameters" element="tns:getPositionByCpRueAndNumero" />
+  </wsdl:message>
+  <wsdl:message name="getPositionBySmartGeocoding">
+    <wsdl:part name="parameters" element="tns:getPositionBySmartGeocoding" />
+  </wsdl:message>
+  <wsdl:message name="getListeLocalitesResponse">
+    <wsdl:part name="parameters" element="tns:getListeLocalitesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListPositionsByCpRueAndNumero">
+    <wsdl:part name="parameters" element="tns:getListPositionsByCpRueAndNumero" />
+  </wsdl:message>
+  <wsdl:message name="searchAllResponse">
+    <wsdl:part name="parameters" element="tns:searchAllResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListPositionsBySmartGeocoding">
+    <wsdl:part name="parameters" element="tns:getListPositionsBySmartGeocoding" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByLocalite">
+    <wsdl:part name="parameters" element="tns:getListeRuesByLocalite" />
+  </wsdl:message>
+  <wsdl:message name="getProvinceByCp">
+    <wsdl:part name="parameters" element="tns:getProvinceByCp" />
+  </wsdl:message>
+  <wsdl:message name="getPositionByCpRueAndNumeroResponse">
+    <wsdl:part name="parameters" element="tns:getPositionByCpRueAndNumeroResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeLocalitesByProvinceResponse">
+    <wsdl:part name="parameters" element="tns:getListeLocalitesByProvinceResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeCommunes">
+    <wsdl:part name="parameters" element="tns:getListeCommunes" />
+  </wsdl:message>
+  <wsdl:message name="getVersion">
+    <wsdl:part name="parameters" element="tns:getVersion" />
+  </wsdl:message>
+  <wsdl:message name="getListeProvincesRWResponse">
+    <wsdl:part name="parameters" element="tns:getListeProvincesRWResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPositionByCpLocaliteRueAndNumero">
+    <wsdl:part name="parameters" element="tns:getPositionByCpLocaliteRueAndNumero" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByCpResponse">
+    <wsdl:part name="parameters" element="tns:getListeRuesByCpResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchPositionScoredResponse">
+    <wsdl:part name="parameters" element="tns:searchPositionScoredResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListPositionsByCpLocaliteRueAndNumero">
+    <wsdl:part name="parameters" element="tns:getListPositionsByCpLocaliteRueAndNumero" />
+  </wsdl:message>
+  <wsdl:message name="getPositionBySmartGeocodingResponse">
+    <wsdl:part name="parameters" element="tns:getPositionBySmartGeocodingResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListPositionsByCpAndRueResponse">
+    <wsdl:part name="parameters" element="tns:getListPositionsByCpAndRueResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeLocalitesByProvince">
+    <wsdl:part name="parameters" element="tns:getListeLocalitesByProvince" />
+  </wsdl:message>
+  <wsdl:message name="searchLocalites">
+    <wsdl:part name="parameters" element="tns:searchLocalites" />
+  </wsdl:message>
+  <wsdl:message name="getListeProvincesRW">
+    <wsdl:part name="parameters" element="tns:getListeProvincesRW" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByCpAndNomApprox">
+    <wsdl:part name="parameters" element="tns:getListeRuesByCpAndNomApprox" />
+  </wsdl:message>
+  <wsdl:message name="searchRuesResponse">
+    <wsdl:part name="parameters" element="tns:searchRuesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByLocaliteAndNomApprox">
+    <wsdl:part name="parameters" element="tns:getListeRuesByLocaliteAndNomApprox" />
+  </wsdl:message>
+  <wsdl:message name="getNearestPositionResponse">
+    <wsdl:part name="parameters" element="tns:getNearestPositionResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchCommunesResponse">
+    <wsdl:part name="parameters" element="tns:searchCommunesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeCpsByProvince">
+    <wsdl:part name="parameters" element="tns:getListeCpsByProvince" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesOfAllCpsOfCommuneByCp">
+    <wsdl:part name="parameters" element="tns:getListeRuesOfAllCpsOfCommuneByCp" />
+  </wsdl:message>
+  <wsdl:message name="getListeLocalitesByIns">
+    <wsdl:part name="parameters" element="tns:getListeLocalitesByIns" />
+  </wsdl:message>
+  <wsdl:message name="searchPositionScored">
+    <wsdl:part name="parameters" element="tns:searchPositionScored" />
+  </wsdl:message>
+  <wsdl:message name="searchLocalitesResponse">
+    <wsdl:part name="parameters" element="tns:searchLocalitesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeLocalitesByCpResponse">
+    <wsdl:part name="parameters" element="tns:getListeLocalitesByCpResponse" />
+  </wsdl:message>
+  <wsdl:message name="getVersionResponse">
+    <wsdl:part name="parameters" element="tns:getVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeLocalitesByCp">
+    <wsdl:part name="parameters" element="tns:getListeLocalitesByCp" />
+  </wsdl:message>
+  <wsdl:message name="processBatchRowGeolocalisationResponse">
+    <wsdl:part name="parameters" element="tns:processBatchRowGeolocalisationResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListPositionsByCpAndRue">
+    <wsdl:part name="parameters" element="tns:getListPositionsByCpAndRue" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByCommuneResponse">
+    <wsdl:part name="parameters" element="tns:getListeRuesByCommuneResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByCommune">
+    <wsdl:part name="parameters" element="tns:getListeRuesByCommune" />
+  </wsdl:message>
+  <wsdl:message name="getPositionByCpAndRueResponse">
+    <wsdl:part name="parameters" element="tns:getPositionByCpAndRueResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByCpAndNomApproxResponse">
+    <wsdl:part name="parameters" element="tns:getListeRuesByCpAndNomApproxResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeCommunesResponse">
+    <wsdl:part name="parameters" element="tns:getListeCommunesResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListPositionsByCpLocaliteRueAndNumeroResponse">
+    <wsdl:part name="parameters" element="tns:getListPositionsByCpLocaliteRueAndNumeroResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListPositionsBySmartGeocodingResponse">
+    <wsdl:part name="parameters" element="tns:getListPositionsBySmartGeocodingResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByLocaliteAndNomApproxResponse">
+    <wsdl:part name="parameters" element="tns:getListeRuesByLocaliteAndNomApproxResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPositionByCpAndRue">
+    <wsdl:part name="parameters" element="tns:getPositionByCpAndRue" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesOfAllCpsOfCommuneByCpResponse">
+    <wsdl:part name="parameters" element="tns:getListeRuesOfAllCpsOfCommuneByCpResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchRues">
+    <wsdl:part name="parameters" element="tns:searchRues" />
+  </wsdl:message>
+  <wsdl:message name="getListeLocalites">
+    <wsdl:part name="parameters" element="tns:getListeLocalites" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesOfAllCpsOfCommuneByCpAndNomApprox">
+    <wsdl:part name="parameters" element="tns:getListeRuesOfAllCpsOfCommuneByCpAndNomApprox" />
+  </wsdl:message>
+  <wsdl:message name="getListeCpsByProvinceResponse">
+    <wsdl:part name="parameters" element="tns:getListeCpsByProvinceResponse" />
+  </wsdl:message>
+  <wsdl:message name="getPositionByCpLocaliteRueAndNumeroResponse">
+    <wsdl:part name="parameters" element="tns:getPositionByCpLocaliteRueAndNumeroResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByCp">
+    <wsdl:part name="parameters" element="tns:getListeRuesByCp" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesByLocaliteResponse">
+    <wsdl:part name="parameters" element="tns:getListeRuesByLocaliteResponse" />
+  </wsdl:message>
+  <wsdl:message name="getNearestRue">
+    <wsdl:part name="parameters" element="tns:getNearestRue" />
+  </wsdl:message>
+  <wsdl:message name="processBatchRowGeolocalisation">
+    <wsdl:part name="parameters" element="tns:processBatchRowGeolocalisation" />
+  </wsdl:message>
+  <wsdl:message name="getListeRuesOfAllCpsOfCommuneByCpAndNomApproxResponse">
+    <wsdl:part name="parameters" element="tns:getListeRuesOfAllCpsOfCommuneByCpAndNomApproxResponse" />
+  </wsdl:message>
+  <wsdl:message name="getListeLocalitesByInsResponse">
+    <wsdl:part name="parameters" element="tns:getListeLocalitesByInsResponse" />
+  </wsdl:message>
+  <wsdl:message name="getNearestRueResponse">
+    <wsdl:part name="parameters" element="tns:getNearestRueResponse" />
+  </wsdl:message>
+  <wsdl:message name="getProvinceByCpResponse">
+    <wsdl:part name="parameters" element="tns:getProvinceByCpResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchPositionResponse">
+    <wsdl:part name="parameters" element="tns:searchPositionResponse" />
+  </wsdl:message>
+  <wsdl:message name="searchAll">
+    <wsdl:part name="parameters" element="tns:searchAll" />
+  </wsdl:message>
+  <wsdl:message name="searchCommunes">
+    <wsdl:part name="parameters" element="tns:searchCommunes" />
+  </wsdl:message>
+  <wsdl:portType name="GeolocalisationSoapWS">
+    <wsdl:operation name="getListeCommunes">
+      <wsdl:input name="getListeCommunes" message="tns:getListeCommunes" />
+      <wsdl:output name="getListeCommunesResponse" message="tns:getListeCommunesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchPosition">
+      <wsdl:input name="searchPosition" message="tns:searchPosition" />
+      <wsdl:output name="searchPositionResponse" message="tns:searchPositionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getProvinceByCp">
+      <wsdl:input name="getProvinceByCp" message="tns:getProvinceByCp" />
+      <wsdl:output name="getProvinceByCpResponse" message="tns:getProvinceByCpResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPositionBySmartGeocoding">
+      <wsdl:input name="getPositionBySmartGeocoding" message="tns:getPositionBySmartGeocoding" />
+      <wsdl:output name="getPositionBySmartGeocodingResponse" message="tns:getPositionBySmartGeocodingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeLocalitesByCp">
+      <wsdl:input name="getListeLocalitesByCp" message="tns:getListeLocalitesByCp" />
+      <wsdl:output name="getListeLocalitesByCpResponse" message="tns:getListeLocalitesByCpResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getNearestPosition">
+      <wsdl:input name="getNearestPosition" message="tns:getNearestPosition" />
+      <wsdl:output name="getNearestPositionResponse" message="tns:getNearestPositionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeProvincesRW">
+      <wsdl:input name="getListeProvincesRW" message="tns:getListeProvincesRW" />
+      <wsdl:output name="getListeProvincesRWResponse" message="tns:getListeProvincesRWResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesOfAllCpsOfCommuneByCp">
+      <wsdl:input name="getListeRuesOfAllCpsOfCommuneByCp" message="tns:getListeRuesOfAllCpsOfCommuneByCp" />
+      <wsdl:output name="getListeRuesOfAllCpsOfCommuneByCpResponse" message="tns:getListeRuesOfAllCpsOfCommuneByCpResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getNearestRue">
+      <wsdl:input name="getNearestRue" message="tns:getNearestRue" />
+      <wsdl:output name="getNearestRueResponse" message="tns:getNearestRueResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesOfAllCpsOfCommuneByCpAndNomApprox">
+      <wsdl:input name="getListeRuesOfAllCpsOfCommuneByCpAndNomApprox" message="tns:getListeRuesOfAllCpsOfCommuneByCpAndNomApprox" />
+      <wsdl:output name="getListeRuesOfAllCpsOfCommuneByCpAndNomApproxResponse" message="tns:getListeRuesOfAllCpsOfCommuneByCpAndNomApproxResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListPositionsByCpRueAndNumero">
+      <wsdl:input name="getListPositionsByCpRueAndNumero" message="tns:getListPositionsByCpRueAndNumero" />
+      <wsdl:output name="getListPositionsByCpRueAndNumeroResponse" message="tns:getListPositionsByCpRueAndNumeroResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeLocalitesByProvince">
+      <wsdl:input name="getListeLocalitesByProvince" message="tns:getListeLocalitesByProvince" />
+      <wsdl:output name="getListeLocalitesByProvinceResponse" message="tns:getListeLocalitesByProvinceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchCommunes">
+      <wsdl:input name="searchCommunes" message="tns:searchCommunes" />
+      <wsdl:output name="searchCommunesResponse" message="tns:searchCommunesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchPositionScored">
+      <wsdl:input name="searchPositionScored" message="tns:searchPositionScored" />
+      <wsdl:output name="searchPositionScoredResponse" message="tns:searchPositionScoredResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchAll">
+      <wsdl:input name="searchAll" message="tns:searchAll" />
+      <wsdl:output name="searchAllResponse" message="tns:searchAllResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPositionByCpRueAndNumero">
+      <wsdl:input name="getPositionByCpRueAndNumero" message="tns:getPositionByCpRueAndNumero" />
+      <wsdl:output name="getPositionByCpRueAndNumeroResponse" message="tns:getPositionByCpRueAndNumeroResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPositionByCpLocaliteRueAndNumero">
+      <wsdl:input name="getPositionByCpLocaliteRueAndNumero" message="tns:getPositionByCpLocaliteRueAndNumero" />
+      <wsdl:output name="getPositionByCpLocaliteRueAndNumeroResponse" message="tns:getPositionByCpLocaliteRueAndNumeroResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="processBatchRowGeolocalisation">
+      <wsdl:input name="processBatchRowGeolocalisation" message="tns:processBatchRowGeolocalisation" />
+      <wsdl:output name="processBatchRowGeolocalisationResponse" message="tns:processBatchRowGeolocalisationResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeLocalitesByIns">
+      <wsdl:input name="getListeLocalitesByIns" message="tns:getListeLocalitesByIns" />
+      <wsdl:output name="getListeLocalitesByInsResponse" message="tns:getListeLocalitesByInsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByLocalite">
+      <wsdl:input name="getListeRuesByLocalite" message="tns:getListeRuesByLocalite" />
+      <wsdl:output name="getListeRuesByLocaliteResponse" message="tns:getListeRuesByLocaliteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeLocalites">
+      <wsdl:input name="getListeLocalites" message="tns:getListeLocalites" />
+      <wsdl:output name="getListeLocalitesResponse" message="tns:getListeLocalitesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByLocaliteAndNomApprox">
+      <wsdl:input name="getListeRuesByLocaliteAndNomApprox" message="tns:getListeRuesByLocaliteAndNomApprox" />
+      <wsdl:output name="getListeRuesByLocaliteAndNomApproxResponse" message="tns:getListeRuesByLocaliteAndNomApproxResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListPositionsBySmartGeocoding">
+      <wsdl:input name="getListPositionsBySmartGeocoding" message="tns:getListPositionsBySmartGeocoding" />
+      <wsdl:output name="getListPositionsBySmartGeocodingResponse" message="tns:getListPositionsBySmartGeocodingResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListPositionsByCpLocaliteRueAndNumero">
+      <wsdl:input name="getListPositionsByCpLocaliteRueAndNumero" message="tns:getListPositionsByCpLocaliteRueAndNumero" />
+      <wsdl:output name="getListPositionsByCpLocaliteRueAndNumeroResponse" message="tns:getListPositionsByCpLocaliteRueAndNumeroResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByCommune">
+      <wsdl:input name="getListeRuesByCommune" message="tns:getListeRuesByCommune" />
+      <wsdl:output name="getListeRuesByCommuneResponse" message="tns:getListeRuesByCommuneResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByCp">
+      <wsdl:input name="getListeRuesByCp" message="tns:getListeRuesByCp" />
+      <wsdl:output name="getListeRuesByCpResponse" message="tns:getListeRuesByCpResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchRues">
+      <wsdl:input name="searchRues" message="tns:searchRues" />
+      <wsdl:output name="searchRuesResponse" message="tns:searchRuesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getPositionByCpAndRue">
+      <wsdl:input name="getPositionByCpAndRue" message="tns:getPositionByCpAndRue" />
+      <wsdl:output name="getPositionByCpAndRueResponse" message="tns:getPositionByCpAndRueResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchLocalites">
+      <wsdl:input name="searchLocalites" message="tns:searchLocalites" />
+      <wsdl:output name="searchLocalitesResponse" message="tns:searchLocalitesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeCpsByProvince">
+      <wsdl:input name="getListeCpsByProvince" message="tns:getListeCpsByProvince" />
+      <wsdl:output name="getListeCpsByProvinceResponse" message="tns:getListeCpsByProvinceResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListPositionsByCpAndRue">
+      <wsdl:input name="getListPositionsByCpAndRue" message="tns:getListPositionsByCpAndRue" />
+      <wsdl:output name="getListPositionsByCpAndRueResponse" message="tns:getListPositionsByCpAndRueResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <wsdl:input name="getVersion" message="tns:getVersion" />
+      <wsdl:output name="getVersionResponse" message="tns:getVersionResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByCpAndNomApprox">
+      <wsdl:input name="getListeRuesByCpAndNomApprox" message="tns:getListeRuesByCpAndNomApprox" />
+      <wsdl:output name="getListeRuesByCpAndNomApproxResponse" message="tns:getListeRuesByCpAndNomApproxResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GeolocalisationSoapWSServiceSoapBinding" type="tns:GeolocalisationSoapWS">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getListeCommunes">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeCommunes">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeCommunesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProvinceByCp">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getProvinceByCp">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getProvinceByCpResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchPosition">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="searchPosition">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="searchPositionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPositionBySmartGeocoding">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getPositionBySmartGeocoding">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getPositionBySmartGeocodingResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeLocalitesByCp">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeLocalitesByCp">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeLocalitesByCpResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNearestPosition">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getNearestPosition">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getNearestPositionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeProvincesRW">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeProvincesRW">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeProvincesRWResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesOfAllCpsOfCommuneByCp">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeRuesOfAllCpsOfCommuneByCp">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeRuesOfAllCpsOfCommuneByCpResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getNearestRue">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getNearestRue">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getNearestRueResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListPositionsByCpRueAndNumero">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListPositionsByCpRueAndNumero">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListPositionsByCpRueAndNumeroResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesOfAllCpsOfCommuneByCpAndNomApprox">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeRuesOfAllCpsOfCommuneByCpAndNomApprox">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeRuesOfAllCpsOfCommuneByCpAndNomApproxResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeLocalitesByProvince">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeLocalitesByProvince">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeLocalitesByProvinceResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchCommunes">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="searchCommunes">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="searchCommunesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchAll">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="searchAll">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="searchAllResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchPositionScored">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="searchPositionScored">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="searchPositionScoredResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPositionByCpRueAndNumero">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getPositionByCpRueAndNumero">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getPositionByCpRueAndNumeroResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPositionByCpLocaliteRueAndNumero">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getPositionByCpLocaliteRueAndNumero">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getPositionByCpLocaliteRueAndNumeroResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="processBatchRowGeolocalisation">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="processBatchRowGeolocalisation">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="processBatchRowGeolocalisationResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeLocalitesByIns">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeLocalitesByIns">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeLocalitesByInsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeLocalites">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeLocalites">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeLocalitesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByLocalite">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeRuesByLocalite">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeRuesByLocaliteResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListPositionsBySmartGeocoding">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListPositionsBySmartGeocoding">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListPositionsBySmartGeocodingResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByLocaliteAndNomApprox">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeRuesByLocaliteAndNomApprox">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeRuesByLocaliteAndNomApproxResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListPositionsByCpLocaliteRueAndNumero">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListPositionsByCpLocaliteRueAndNumero">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListPositionsByCpLocaliteRueAndNumeroResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByCommune">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeRuesByCommune">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeRuesByCommuneResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByCp">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeRuesByCp">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeRuesByCpResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPositionByCpAndRue">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getPositionByCpAndRue">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getPositionByCpAndRueResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchRues">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="searchRues">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="searchRuesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchLocalites">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="searchLocalites">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="searchLocalitesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListPositionsByCpAndRue">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListPositionsByCpAndRue">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListPositionsByCpAndRueResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeCpsByProvince">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeCpsByProvince">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeCpsByProvinceResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListeRuesByCpAndNomApprox">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getListeRuesByCpAndNomApprox">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getListeRuesByCpAndNomApproxResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getVersion">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getVersionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GeolocalisationSoapWSService">
+    <wsdl:port name="GeolocalisationSoapWSPort" binding="tns:GeolocalisationSoapWSServiceSoapBinding">
+      <soap:address location="http://geoservices.wallonie.be/geolocalisation/soap/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

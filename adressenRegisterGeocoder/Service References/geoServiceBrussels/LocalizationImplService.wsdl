@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://localize2" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="LocalizationImplService" targetNamespace="http://localize2" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://geoservices.irisnet.be:80/localization/SOAP/Localization?xsd=1" namespace="http://localize2" />
+    </xsd:schema>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://geoservices.irisnet.be:80/localization/SOAP/Localization?xsd=2" namespace="http://localize/xsd" />
+    </xsd:schema>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://geoservices.irisnet.be:80/localization/SOAP/Localization?xsd=3" namespace="http://localize/faults" />
+    </xsd:schema>
+  </types>
+  <message name="getStreetsAutoComplete">
+    <part name="parameters" element="tns:getStreetsAutoComplete" />
+  </message>
+  <message name="getStreetsAutoCompleteResponse">
+    <part name="parameters" element="tns:getStreetsAutoCompleteResponse" />
+  </message>
+  <message name="BusinessInputFault">
+    <part name="fault" element="tns:BusinessInputFault" />
+  </message>
+  <message name="getAdressessAutoComplete">
+    <part name="parameters" element="tns:getAdressessAutoComplete" />
+  </message>
+  <message name="getAdressessAutoCompleteResponse">
+    <part name="parameters" element="tns:getAdressessAutoCompleteResponse" />
+  </message>
+  <message name="getCrossRoadByPW">
+    <part name="parameters" element="tns:getCrossRoadByPW" />
+  </message>
+  <message name="getCrossRoadByPWResponse">
+    <part name="parameters" element="tns:getCrossRoadByPWResponse" />
+  </message>
+  <message name="getCrossRoadByGW">
+    <part name="parameters" element="tns:getCrossRoadByGW" />
+  </message>
+  <message name="getCrossRoadByGWResponse">
+    <part name="parameters" element="tns:getCrossRoadByGWResponse" />
+  </message>
+  <message name="getCrossRoadByName">
+    <part name="parameters" element="tns:getCrossRoadByName" />
+  </message>
+  <message name="getCrossRoadByNameResponse">
+    <part name="parameters" element="tns:getCrossRoadByNameResponse" />
+  </message>
+  <message name="getAddressFromPoint">
+    <part name="parameters" element="tns:getAddressFromPoint" />
+  </message>
+  <message name="getAddressFromPointResponse">
+    <part name="parameters" element="tns:getAddressFromPointResponse" />
+  </message>
+  <message name="nearestAddressFromPoint">
+    <part name="parameters" element="tns:nearestAddressFromPoint" />
+  </message>
+  <message name="nearestAddressFromPointResponse">
+    <part name="parameters" element="tns:nearestAddressFromPointResponse" />
+  </message>
+  <message name="getAddressFromParcel">
+    <part name="parameters" element="tns:getAddressFromParcel" />
+  </message>
+  <message name="getAddressFromParcelResponse">
+    <part name="parameters" element="tns:getAddressFromParcelResponse" />
+  </message>
+  <message name="getAddressFromBuilding">
+    <part name="parameters" element="tns:getAddressFromBuilding" />
+  </message>
+  <message name="getAddressFromBuildingResponse">
+    <part name="parameters" element="tns:getAddressFromBuildingResponse" />
+  </message>
+  <message name="getAddressesWithinDistance">
+    <part name="parameters" element="tns:getAddressesWithinDistance" />
+  </message>
+  <message name="getAddressesWithinDistanceResponse">
+    <part name="parameters" element="tns:getAddressesWithinDistanceResponse" />
+  </message>
+  <message name="getAddressFromNearestBuilding">
+    <part name="parameters" element="tns:getAddressFromNearestBuilding" />
+  </message>
+  <message name="getAddressFromNearestBuildingResponse">
+    <part name="parameters" element="tns:getAddressFromNearestBuildingResponse" />
+  </message>
+  <message name="getAddresses">
+    <part xmlns:ns1="http://localize/xsd" name="parameters" element="ns1:getAddresses" />
+  </message>
+  <message name="getAddressesResponse">
+    <part xmlns:ns2="http://localize/xsd" name="parameters" element="ns2:getAddressesResponse" />
+  </message>
+  <message name="InputFault">
+    <part xmlns:ns3="http://localize/faults" name="fault" element="ns3:inputMessageValidationFault" />
+  </message>
+  <message name="getStreetsExtent">
+    <part xmlns:ns4="http://localize/xsd" name="parameters" element="ns4:getStreetsExtent" />
+  </message>
+  <message name="getStreetsExtentResponse">
+    <part xmlns:ns5="http://localize/xsd" name="parameters" element="ns5:getStreetsExtentResponse" />
+  </message>
+  <message name="getXYCoord">
+    <part xmlns:ns6="http://localize/xsd" name="parameters" element="ns6:getXYCoord" />
+  </message>
+  <message name="getXYCoordResponse">
+    <part xmlns:ns7="http://localize/xsd" name="parameters" element="ns7:getXYCoordResponse" />
+  </message>
+  <message name="getAddressesFields">
+    <part xmlns:ns8="http://localize/xsd" name="parameters" element="ns8:getAddressesFields" />
+  </message>
+  <message name="getAddressesFieldsResponse">
+    <part xmlns:ns9="http://localize/xsd" name="parameters" element="ns9:getAddressesFieldsResponse" />
+  </message>
+  <message name="getAddressFromXY">
+    <part xmlns:ns10="http://localize/xsd" name="parameters" element="ns10:getAddressFromXY" />
+  </message>
+  <message name="getAddressFromXYResponse">
+    <part xmlns:ns11="http://localize/xsd" name="parameters" element="ns11:getAddressFromXYResponse" />
+  </message>
+  <message name="getAddressFromAdNc">
+    <part xmlns:ns12="http://localize/xsd" name="parameters" element="ns12:getAddressFromAdNc" />
+  </message>
+  <message name="getAddressFromAdNcResponse">
+    <part xmlns:ns13="http://localize/xsd" name="parameters" element="ns13:getAddressFromAdNcResponse" />
+  </message>
+  <message name="getStreetFromID">
+    <part xmlns:ns14="http://localize/xsd" name="parameters" element="ns14:getStreetFromID" />
+  </message>
+  <message name="getStreetFromIDResponse">
+    <part xmlns:ns15="http://localize/xsd" name="parameters" element="ns15:getStreetFromIDResponse" />
+  </message>
+  <message name="getPOITypes">
+    <part xmlns:ns16="http://localize/xsd" name="parameters" element="ns16:getPOITypes" />
+  </message>
+  <message name="getPOITypesResponse">
+    <part xmlns:ns17="http://localize/xsd" name="parameters" element="ns17:getPOITypesResponse" />
+  </message>
+  <message name="getPOI">
+    <part xmlns:ns18="http://localize/xsd" name="parameters" element="ns18:getPOI" />
+  </message>
+  <message name="getPOIResponse">
+    <part xmlns:ns19="http://localize/xsd" name="parameters" element="ns19:getPOIResponse" />
+  </message>
+  <message name="getPOIByType">
+    <part xmlns:ns20="http://localize/xsd" name="parameters" element="ns20:getPOIByType" />
+  </message>
+  <message name="getPOIByTypeResponse">
+    <part xmlns:ns21="http://localize/xsd" name="parameters" element="ns21:getPOIByTypeResponse" />
+  </message>
+  <message name="getStreetFromPwnc">
+    <part xmlns:ns22="http://localize/xsd" name="parameters" element="ns22:getStreetFromPwnc" />
+  </message>
+  <message name="getStreetFromPwncResponse">
+    <part xmlns:ns23="http://localize/xsd" name="parameters" element="ns23:getStreetFromPwncResponse" />
+  </message>
+  <message name="getPOIFromXY">
+    <part xmlns:ns24="http://localize/xsd" name="parameters" element="ns24:getPOIFromXY" />
+  </message>
+  <message name="getPOIFromXYResponse">
+    <part xmlns:ns25="http://localize/xsd" name="parameters" element="ns25:getPOIFromXYResponse" />
+  </message>
+  <portType name="Localization2">
+    <operation name="getStreetsAutoComplete">
+      <input wsam:Action="http://localize2/Localization2/getStreetsAutoCompleteRequest" message="tns:getStreetsAutoComplete" />
+      <output wsam:Action="http://localize2/Localization2/getStreetsAutoCompleteResponse" message="tns:getStreetsAutoCompleteResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getStreetsAutoComplete/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getAdressessAutoComplete">
+      <input wsam:Action="http://localize2/Localization2/getAdressessAutoCompleteRequest" message="tns:getAdressessAutoComplete" />
+      <output wsam:Action="http://localize2/Localization2/getAdressessAutoCompleteResponse" message="tns:getAdressessAutoCompleteResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAdressessAutoComplete/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getCrossRoadByPW">
+      <input wsam:Action="http://localize2/Localization2/getCrossRoadByPWRequest" message="tns:getCrossRoadByPW" />
+      <output wsam:Action="http://localize2/Localization2/getCrossRoadByPWResponse" message="tns:getCrossRoadByPWResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getCrossRoadByPW/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getCrossRoadByGW">
+      <input wsam:Action="http://localize2/Localization2/getCrossRoadByGWRequest" message="tns:getCrossRoadByGW" />
+      <output wsam:Action="http://localize2/Localization2/getCrossRoadByGWResponse" message="tns:getCrossRoadByGWResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getCrossRoadByGW/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getCrossRoadByName">
+      <input wsam:Action="http://localize2/Localization2/getCrossRoadByNameRequest" message="tns:getCrossRoadByName" />
+      <output wsam:Action="http://localize2/Localization2/getCrossRoadByNameResponse" message="tns:getCrossRoadByNameResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getCrossRoadByName/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getAddressFromPoint">
+      <input wsam:Action="http://localize2/Localization2/getAddressFromPointRequest" message="tns:getAddressFromPoint" />
+      <output wsam:Action="http://localize2/Localization2/getAddressFromPointResponse" message="tns:getAddressFromPointResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAddressFromPoint/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="nearestAddressFromPoint">
+      <input wsam:Action="http://localize2/Localization2/nearestAddressFromPointRequest" message="tns:nearestAddressFromPoint" />
+      <output wsam:Action="http://localize2/Localization2/nearestAddressFromPointResponse" message="tns:nearestAddressFromPointResponse" />
+      <fault wsam:Action="http://localize2/Localization2/nearestAddressFromPoint/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getAddressFromParcel">
+      <input wsam:Action="http://localize2/Localization2/getAddressFromParcelRequest" message="tns:getAddressFromParcel" />
+      <output wsam:Action="http://localize2/Localization2/getAddressFromParcelResponse" message="tns:getAddressFromParcelResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAddressFromParcel/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getAddressFromBuilding">
+      <input wsam:Action="http://localize2/Localization2/getAddressFromBuildingRequest" message="tns:getAddressFromBuilding" />
+      <output wsam:Action="http://localize2/Localization2/getAddressFromBuildingResponse" message="tns:getAddressFromBuildingResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAddressFromBuilding/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getAddressesWithinDistance">
+      <input wsam:Action="http://localize2/Localization2/getAddressesWithinDistanceRequest" message="tns:getAddressesWithinDistance" />
+      <output wsam:Action="http://localize2/Localization2/getAddressesWithinDistanceResponse" message="tns:getAddressesWithinDistanceResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAddressesWithinDistance/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getAddressFromNearestBuilding">
+      <input wsam:Action="http://localize2/Localization2/getAddressFromNearestBuildingRequest" message="tns:getAddressFromNearestBuilding" />
+      <output wsam:Action="http://localize2/Localization2/getAddressFromNearestBuildingResponse" message="tns:getAddressFromNearestBuildingResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAddressFromNearestBuilding/Fault/BusinessInputFault" name="BusinessInputFault" message="tns:BusinessInputFault" />
+    </operation>
+    <operation name="getAddresses">
+      <input wsam:Action=" " message="tns:getAddresses" />
+      <output wsam:Action="http://localize2/Localization2/getAddressesResponse" message="tns:getAddressesResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAddresses/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getStreetsExtent">
+      <input wsam:Action=" " message="tns:getStreetsExtent" />
+      <output wsam:Action="http://localize2/Localization2/getStreetsExtentResponse" message="tns:getStreetsExtentResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getStreetsExtent/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getXYCoord">
+      <input wsam:Action=" " message="tns:getXYCoord" />
+      <output wsam:Action="http://localize2/Localization2/getXYCoordResponse" message="tns:getXYCoordResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getXYCoord/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getAddressesFields">
+      <input wsam:Action=" " message="tns:getAddressesFields" />
+      <output wsam:Action="http://localize2/Localization2/getAddressesFieldsResponse" message="tns:getAddressesFieldsResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAddressesFields/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getAddressFromXY">
+      <input wsam:Action=" " message="tns:getAddressFromXY" />
+      <output wsam:Action="http://localize2/Localization2/getAddressFromXYResponse" message="tns:getAddressFromXYResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAddressFromXY/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getAddressFromAdNc">
+      <input wsam:Action=" " message="tns:getAddressFromAdNc" />
+      <output wsam:Action="http://localize2/Localization2/getAddressFromAdNcResponse" message="tns:getAddressFromAdNcResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getAddressFromAdNc/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getStreetFromID">
+      <input wsam:Action=" " message="tns:getStreetFromID" />
+      <output wsam:Action="http://localize2/Localization2/getStreetFromIDResponse" message="tns:getStreetFromIDResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getStreetFromID/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getPOITypes">
+      <input wsam:Action=" " message="tns:getPOITypes" />
+      <output wsam:Action="http://localize2/Localization2/getPOITypesResponse" message="tns:getPOITypesResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getPOITypes/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getPOI">
+      <input wsam:Action=" " message="tns:getPOI" />
+      <output wsam:Action="http://localize2/Localization2/getPOIResponse" message="tns:getPOIResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getPOI/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getPOIByType">
+      <input wsam:Action=" " message="tns:getPOIByType" />
+      <output wsam:Action="http://localize2/Localization2/getPOIByTypeResponse" message="tns:getPOIByTypeResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getPOIByType/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getStreetFromPwnc">
+      <input wsam:Action=" " message="tns:getStreetFromPwnc" />
+      <output wsam:Action="http://localize2/Localization2/getStreetFromPwncResponse" message="tns:getStreetFromPwncResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getStreetFromPwnc/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+    <operation name="getPOIFromXY">
+      <input wsam:Action=" " message="tns:getPOIFromXY" />
+      <output wsam:Action="http://localize2/Localization2/getPOIFromXYResponse" message="tns:getPOIFromXYResponse" />
+      <fault wsam:Action="http://localize2/Localization2/getPOIFromXY/Fault/InputFault" name="InputFault" message="tns:InputFault" />
+    </operation>
+  </portType>
+  <binding name="LocalizationImplPortBinding" type="tns:Localization2">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="getStreetsAutoComplete">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAdressessAutoComplete">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getCrossRoadByPW">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getCrossRoadByGW">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getCrossRoadByName">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAddressFromPoint">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="nearestAddressFromPoint">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAddressFromParcel">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAddressFromBuilding">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAddressesWithinDistance">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAddressFromNearestBuilding">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="BusinessInputFault">
+        <soap:fault use="literal" name="BusinessInputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAddresses">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getStreetsExtent">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getXYCoord">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAddressesFields">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAddressFromXY">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getAddressFromAdNc">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getStreetFromID">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getPOITypes">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getPOI">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getPOIByType">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getStreetFromPwnc">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getPOIFromXY">
+      <soap:operation soapAction=" " />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+      <fault name="InputFault">
+        <soap:fault use="literal" name="InputFault" namespace="" />
+      </fault>
+    </operation>
+  </binding>
+  <service name="LocalizationImplService">
+    <port name="LocalizationImplPort" binding="tns:LocalizationImplPortBinding">
+      <soap:address location="http://geoservices.irisnet.be:80/localization/SOAP/Localization" />
+    </port>
+  </service>
+</definitions>

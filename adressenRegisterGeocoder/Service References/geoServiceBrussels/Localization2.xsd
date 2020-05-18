@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://localize2" targetNamespace="http://localize2" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="BusinessInputFault" type="tns:BusinessInputFault" />
+  <xs:element name="getAddressFromBuilding" type="tns:getAddressFromBuilding" />
+  <xs:element name="getAddressFromBuildingResponse" type="tns:getAddressFromBuildingResponse" />
+  <xs:element name="getAddressFromNearestBuilding" type="tns:getAddressFromNearestBuilding" />
+  <xs:element name="getAddressFromNearestBuildingResponse" type="tns:getAddressFromNearestBuildingResponse" />
+  <xs:element name="getAddressFromParcel" type="tns:getAddressFromParcel" />
+  <xs:element name="getAddressFromParcelResponse" type="tns:getAddressFromParcelResponse" />
+  <xs:element name="getAddressFromPoint" type="tns:getAddressFromPoint" />
+  <xs:element name="getAddressFromPointResponse" type="tns:getAddressFromPointResponse" />
+  <xs:element name="getAddressesWithinDistance" type="tns:getAddressesWithinDistance" />
+  <xs:element name="getAddressesWithinDistanceResponse" type="tns:getAddressesWithinDistanceResponse" />
+  <xs:element name="getAdressessAutoComplete" type="tns:getAdressessAutoComplete" />
+  <xs:element name="getAdressessAutoCompleteResponse" type="tns:getAdressessAutoCompleteResponse" />
+  <xs:element name="getCrossRoadByGW" type="tns:getCrossRoadByGW" />
+  <xs:element name="getCrossRoadByGWResponse" type="tns:getCrossRoadByGWResponse" />
+  <xs:element name="getCrossRoadByName" type="tns:getCrossRoadByName" />
+  <xs:element name="getCrossRoadByNameResponse" type="tns:getCrossRoadByNameResponse" />
+  <xs:element name="getCrossRoadByPW" type="tns:getCrossRoadByPW" />
+  <xs:element name="getCrossRoadByPWResponse" type="tns:getCrossRoadByPWResponse" />
+  <xs:element name="getStreetsAutoComplete" type="tns:getStreetsAutoComplete" />
+  <xs:element name="getStreetsAutoCompleteResponse" type="tns:getStreetsAutoCompleteResponse" />
+  <xs:element name="nearestAddressFromPoint" type="tns:nearestAddressFromPoint" />
+  <xs:element name="nearestAddressFromPointResponse" type="tns:nearestAddressFromPointResponse" />
+  <xs:complexType name="getAddressFromBuilding">
+    <xs:sequence>
+      <xs:element name="language" type="xs:string" />
+      <xs:element name="PointRequest" type="tns:PointRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PointRequest">
+    <xs:sequence>
+      <xs:element name="point" type="tns:Point" />
+      <xs:element name="SRS_In" type="xs:int" />
+      <xs:element name="SRS_Out" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Point">
+    <xs:sequence>
+      <xs:element name="x" type="xs:double" />
+      <xs:element name="y" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAddressFromBuildingResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:AddressesResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AddressesResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="addressesResponse" nillable="true" type="tns:AddressResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AddressResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="address" type="tns:Address" />
+      <xs:element minOccurs="0" name="language" type="xs:string" />
+      <xs:element minOccurs="0" name="adnc" type="xs:string" />
+      <xs:element minOccurs="0" name="score" type="xs:float" />
+      <xs:element minOccurs="0" name="point" type="tns:Point" />
+      <xs:element minOccurs="0" name="extent" type="tns:Extent" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Address">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="street" type="tns:Street" />
+      <xs:element minOccurs="0" name="number" type="xs:string" />
+      <xs:element minOccurs="0" name="addressPointId" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Street">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="name" type="xs:string" />
+      <xs:element minOccurs="0" name="postCode" type="xs:string" />
+      <xs:element minOccurs="0" name="municipality" type="xs:string" />
+      <xs:element minOccurs="0" name="id" type="xs:string" />
+      <xs:element minOccurs="0" name="pwnc" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Extent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="max" type="tns:Point" />
+      <xs:element minOccurs="0" name="min" type="tns:Point" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BusinessInputFault">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="faultInfo" type="tns:businessInputMessageValidationFaultType" />
+      <xs:element minOccurs="0" name="message" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="businessInputMessageValidationFaultType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="msg" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCrossRoadByGW">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" />
+      <xs:element name="arg1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCrossRoadByGWResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="response" nillable="true" type="tns:xyResponse" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="xyResponse">
+    <xs:sequence>
+      <xs:element name="x" type="xs:double" />
+      <xs:element name="y" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="nearestAddressFromPoint">
+    <xs:sequence>
+      <xs:element name="language" type="xs:string" />
+      <xs:element name="PointRequest" type="tns:PointRequest" />
+      <xs:element name="maxhits" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="nearestAddressFromPointResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:AddressesResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAddressFromPoint">
+    <xs:sequence>
+      <xs:element name="language" type="xs:string" />
+      <xs:element name="PointRequest" type="tns:PointRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAddressFromPointResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:AddressesResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAddressFromNearestBuilding">
+    <xs:sequence>
+      <xs:element name="language" type="xs:string" />
+      <xs:element name="PointRequest" type="tns:PointRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAddressFromNearestBuildingResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:AddressesResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCrossRoadByPW">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" />
+      <xs:element name="arg1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCrossRoadByPWResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="response" nillable="true" type="tns:xyResponse" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAddressesWithinDistance">
+    <xs:sequence>
+      <xs:element name="language" type="xs:string" />
+      <xs:element name="PointRequest" type="tns:PointRequest" />
+      <xs:element name="distance" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAddressesWithinDistanceResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:AddressesResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getStreetsAutoComplete">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:streetAutoCompletionRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="streetAutoCompletionRequest">
+    <xs:sequence>
+      <xs:element name="address" type="xs:string" />
+      <xs:element name="shortModeActive" type="xs:string" />
+      <xs:element minOccurs="0" name="language" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getStreetsAutoCompleteResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="streetAutoCompletionResponse" nillable="true" type="tns:StreetAutoCompletionResponse" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StreetAutoCompletionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="StreetFr" type="xs:string" />
+      <xs:element minOccurs="0" name="StreetNL" type="xs:string" />
+      <xs:element minOccurs="0" name="PZ" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAdressessAutoComplete">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:streetAutoCompletionRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAdressessAutoCompleteResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="streetAutoCompletionResponse" nillable="true" type="tns:StreetAutoCompletionResponse" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAddressFromParcel">
+    <xs:sequence>
+      <xs:element name="language" type="xs:string" />
+      <xs:element name="PointRequest" type="tns:PointRequest" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getAddressFromParcelResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:AddressesResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCrossRoadByName">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:string" />
+      <xs:element name="arg1" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getCrossRoadByNameResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="response" nillable="true" type="tns:xyResponse" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
