@@ -23,9 +23,9 @@ namespace adressenRegisterGeocoder
    public partial class MainForm : Form
    {
       crsFactory crs;
+      geoUtils gu;
       GeoAPI.Geometries.IGeometryFactory gf;
       GeometryProvider geoprov;
-      AdresMatchClient adresMatch;
 
       int maxRows = Int32.MaxValue;
       int straatCol;
@@ -50,7 +50,11 @@ namespace adressenRegisterGeocoder
 
          //extra events
          this.closeBtn.Click += (sender, e) => this.Close();
-         this.FormClosing += MainForm_FormClosing;
+         this.FormClosing += (sender, e) => {
+            var window = MessageBox.Show("Ben u zeker dat wilt afsluiten?", "Afsluiten", MessageBoxButtons.YesNo);
+            e.Cancel = (window == DialogResult.No);
+         };
+         this.cancelValidationBtn.Click += (sender, e) => canceling = true;
       }
 
       #region save
@@ -62,11 +66,11 @@ namespace adressenRegisterGeocoder
          var ext = Path.GetExtension(saveShapeDlg.FileName);
          if (ext == ".shp")
          {
-            result = saveShp(saveShapeDlg.FileName);
+            result = gu.saveShpFromDatagrid(saveShapeDlg.FileName, csvDataGrid);
          }
          else if (ext == ".csv")
          {
-            result = saveCsv(saveShapeDlg.FileName);
+            result = gu.saveCsvFromDatagrid(saveShapeDlg.FileName, csvDataGrid);
          }
          if (result) 
             MessageBox.Show(Path.GetFileName(saveShapeDlg.FileName) + " is opgeslagen.");
@@ -74,77 +78,6 @@ namespace adressenRegisterGeocoder
             MessageBox.Show(Path.GetFileName(saveShapeDlg.FileName) + " werd niet opgeslagen, mogelijk zijn er geen records met een geometrie");
          
       }
-
-      private bool saveCsv(string flName)
-      {
-         var sb = new StringBuilder();
-         var headers = csvDataGrid.Columns.Cast<DataGridViewColumn>();
-         sb.AppendLine(string.Join(";", headers.Select(column => "\""+ column.HeaderText +"\"" ).ToArray()));
-
-         foreach (DataGridViewRow row in csvDataGrid.Rows)
-         {
-            var cells = row.Cells.Cast<DataGridViewCell>();
-            sb.AppendLine(string.Join(";", cells.Select(cell => "\""+ cell.Value +"\"" ).ToArray()));
-         }
-         var utf8bytes = Encoding.UTF8.GetBytes(sb.ToString());
-         var win1252Bytes = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("windows-1252"), utf8bytes);
-         File.WriteAllBytes(flName , win1252Bytes);
-
-         return true;
-      }
-      
-      private bool saveShp(string shpFile)
-      {
-         var features = new List<NetTopologySuite.Features.Feature>();
-         foreach (DataGridViewRow row in csvDataGrid.Rows)
-         {
-            double X; double Y;
-            if (row.Cells["X"].Value is double && row.Cells["Y"].Value is double)
-            {
-               X = (double)row.Cells["X"].Value;
-               Y = (double)row.Cells["Y"].Value;
-            }
-            else continue;
-
-            var geom = gf.CreatePoint(new GeoAPI.Geometries.Coordinate(X, Y));
-            var attr = new NetTopologySuite.Features.AttributesTable();
-            var headerNamesCLean = new List<string>();
-
-            for (int i = 0; i < row.Cells.Count; i++)
-            {
-               //if (row.Cells[i].Value == null) continue;
-               var val =  row.Cells[i].Value.ToString();
-               var name = launderShpName(csvDataGrid.Columns[i].HeaderText, headerNamesCLean);
-               headerNamesCLean.Add(name);
-               attr.AddAttribute(name, val);
-            }
-            var feat = new NetTopologySuite.Features.Feature(geom, attr);
-            features.Add(feat);
-         }
-         if( features.Count == 0) return false;
-
-         var outFileNoExt = Path.GetDirectoryName(shpFile) + @"\" + Path.GetFileNameWithoutExtension(shpFile);
-
-         var writer = new ShapefileDataWriter(outFileNoExt) {Header = ShapefileDataWriter.GetHeader(features[0], features.Count)};
-         writer.Write(features);
-         File.WriteAllText(outFileNoExt + ".prj", crs.lam72.WKT);
-         return true;
-      }
-
-      private string launderShpName(string inCellName, List<string> existingNames )
-      {
-         var outCellName = Regex.Replace(inCellName, @"[^a-zA-Z0-9 -]", "");
-         outCellName = outCellName.Replace(@" ", @"_");
-         outCellName = Regex.IsMatch(outCellName, @"^\d") ? "c" + outCellName : outCellName;
-         outCellName = outCellName.Length > 10 ? outCellName.Substring(0, 10) : outCellName;
-         if(existingNames.Contains(outCellName) )
-         {
-            outCellName = outCellName.Length > 8 ? outCellName.Substring(0, 8) : outCellName;
-            outCellName = outCellName.Substring(0, 8) + existingNames.Count.ToString("00"); //let asume no more then 100 fields
-         }
-         return outCellName;
-      }
-
       #endregion
 
       #region map interaction;
@@ -154,8 +87,7 @@ namespace adressenRegisterGeocoder
          //create geometry collection
          GeoAPI.GeometryServiceProvider.Instance = new NtsGeometryServices();
          gf = GeoAPI.GeometryServiceProvider.Instance.CreateGeometryFactory();
-
-         adresMatch = new AdresMatchClient();
+         gu = new geoUtils(gf);
 
          SharpMap.Data.FeatureDataTable feats = new SharpMap.Data.FeatureDataTable();
          geoprov = new GeometryProvider(feats);
@@ -342,9 +274,6 @@ namespace adressenRegisterGeocoder
             doGeocode(rows2validate);
          }
       }
-      #endregion
-
-      #region worker
 
       async void doGeocode(DataGridViewRow[] rows)
       {
@@ -385,11 +314,6 @@ namespace adressenRegisterGeocoder
          }
          progressBar.Value = 0;
          toggleInteraction(true);
-      }
-
-      private void cancelValidationBtn_Click(object sender, EventArgs e)
-      {
-         canceling = true;
       }
       #endregion
 
@@ -488,15 +412,6 @@ namespace adressenRegisterGeocoder
             cel.Style.BackColor = clr;
          }
          prikLoc = false;
-      }
-      #endregion
-
-      #region FormClosing_event
-      void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-      {
-         var window = MessageBox.Show(
-             "Ben u zeker dat wilt afsluiten?", "Afsluiten", MessageBoxButtons.YesNo);
-         e.Cancel = (window == DialogResult.No);
       }
       #endregion
 

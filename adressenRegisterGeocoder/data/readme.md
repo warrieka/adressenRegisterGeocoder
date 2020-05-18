@@ -1,7 +1,9 @@
 Put shapefile of wegenregister here 
 ===================================
 
-Download from: https://download.vlaanderen.be/Producten/Detail?id=4277
+Downloaded from: 
+    https://downloadagiv.blob.core.windows.net/wegenregister/Wegenregister_SHAPE_20200320.zip 
+    (see https://download.vlaanderen.be/Producten/Detail?id=6207 for latest version)   
 
 Disolve and simplify on LSTRNMID using spatialite.  
 It shoult be name wr.shp and all field except streetnameid should be removed.

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>adressenRegisterGeocoder</RootNamespace>
     <AssemblyName>adressenRegisterGeocoder</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
@@ -26,6 +26,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -69,6 +70,9 @@
       <HintPath>..\packages\GeoAPI.1.7.2\lib\net403-client\GeoAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JsonSubTypes">
+      <HintPath>..\..\codegen\csharp\bin\JsonSubTypes.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NetTopologySuite, Version=1.13.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NetTopologySuite.1.13.2\lib\net403-client\NetTopologySuite.dll</HintPath>
@@ -78,9 +82,9 @@
       <HintPath>..\packages\NetTopologySuite.IO.1.13.2\lib\net403-client\NetTopologySuite.IO.GeoTools.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\codegen\csharp\bin\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PowerCollections, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NetTopologySuite.1.13.2\lib\net403-client\PowerCollections.dll</HintPath>
@@ -89,6 +93,9 @@
     <Reference Include="ProjNet, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ProjNET4GeoAPI.1.3.0.3\lib\net403-client\ProjNet.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp">
+      <HintPath>..\..\codegen\csharp\bin\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SharpMap, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpMap.1.1.0\lib\net40-client\SharpMap.dll</HintPath>
@@ -104,6 +111,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -112,10 +120,12 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="vlaanderen.informatie">
+      <HintPath>..\..\codegen\csharp\bin\vlaanderen.informatie.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="adres.cs" />
-    <Compile Include="adressenRegister.cs" />
     <Compile Include="crsFactory.cs" />
     <Compile Include="csvReader.cs" />
     <Compile Include="dataValidator.cs" />
@@ -128,6 +138,284 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\geoServiceBrussels\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\geoServiceWallonie\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.AddressResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.AddressType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.ExtensionType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressesFieldsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressesFieldsResponseAddressesFieldsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressesResponseAddressesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressesWithinDistanceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressFromAdNcResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressFromBuildingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressFromNearestBuildingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressFromParcelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressFromPointResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAddressFromXYResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getAdressessAutoCompleteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getCrossRoadByGWResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getCrossRoadByNameResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getCrossRoadByPWResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getPOIByTypeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getPOIByTypeResponsePoiByTypeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getPOIFromXYResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getPOIResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getPOIResponsePoiResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getPOITypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getStreetFromIDResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getStreetFromPwncResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getStreetFromPwncResponseStreetFromPwncResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getStreetsAutoCompleteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getStreetsExtentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.getXYCoordResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.nearestAddressFromPointResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.PointType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.StreetAutoCompletionResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.StreetType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\adressenRegisterGeocoder.geoServiceBrussels.xyResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceBrussels\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\geoServiceBrussels\configuration.svcinfo" />
+    <None Include="Service References\geoServiceBrussels\configuration91.svcinfo" />
+    <None Include="Service References\geoServiceBrussels\Localization.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\geoServiceBrussels\Localization1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\geoServiceBrussels\Localization2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\geoServiceBrussels\LocalizationImplService.wsdl" />
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.batch.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeCommunesResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeCpsByProvinceResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeLocalitesByCpResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeLocalitesByInsResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeLocalitesByProvinceResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeLocalitesResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeProvincesRWResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeRuesByCommuneResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeRuesByCpAndNomApproxResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeRuesByCpResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeRuesByLocaliteAndNomApproxResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeRuesByLocaliteResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeRuesOfAllCpsOfCommuneByCpAndNomApproxResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListeRuesOfAllCpsOfCommuneByCpResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListPositionsByCpAndRueResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListPositionsByCpLocaliteRueAndNumeroResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListPositionsByCpRueAndNumeroResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getListPositionsBySmartGeocodingResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getNearestPositionResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getNearestRueResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getPositionByCpAndRueResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getPositionByCpLocaliteRueAndNumeroResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getPositionByCpRueAndNumeroResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getPositionBySmartGeocodingResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getProvinceByCpResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.getVersionResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.listeCommunes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.listeLocalites.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.listeLocalitesWithProvince.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.listePositionsScore.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.listeProvinces.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.listeResultats.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.listeRues.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.listeRuesScore.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.nearestRue.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.position.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.positionScore.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.processBatchRowGeolocalisationResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.province.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.searchAllResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.searchCommunesResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.searchLocalitesResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.searchPositionResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.searchPositionScoredResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.searchRuesResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\adressenRegisterGeocoder.geoServiceWallonie.simpleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\geoServiceWallonie\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\geoServiceWallonie\configuration.svcinfo" />
+    <None Include="Service References\geoServiceWallonie\configuration91.svcinfo" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -166,6 +454,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Service References\geoServiceWallonie\GeolocalisationSoapWSService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -196,6 +485,10 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\geoServiceBrussels\" />
+    <WCFMetadataStorage Include="Service References\geoServiceWallonie\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

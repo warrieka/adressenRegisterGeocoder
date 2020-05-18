@@ -4,17 +4,23 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
-using vlaanderen.informatie;
+using vlaanderen.informatie.Api;
+using vlaanderen.informatie.Model;
+using System.Net;
 
 namespace adressenRegisterGeocoder
 {
    class dataValidator
    {
-      private AdresMatchClient adresMatch;
+      private AdressenApi adresMatch;
+      private string arBasePath = "https://api.basisregisters.vlaanderen.be";
 
       public dataValidator()
       {
-         this.adresMatch = new AdresMatchClient();
+         ServicePointManager.Expect100Continue = true;
+         ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls12; ;
+         ServicePointManager.CheckCertificateRevocationList = false;
+         this.adresMatch = new AdressenApi(arBasePath);
       }
 
       public async Task<AdresMatchItem[]> findAdres(adres inputAdres, bool nearNr = false)
@@ -22,8 +28,8 @@ namespace adressenRegisterGeocoder
          List<AdresMatchItem> adresmatches;
          try
          {
-            var adresses = await adresMatch.GetAsync("1", inputAdres.municapalname, adresMatchRequest_straatnaam: inputAdres.street,
-                                 adresMatchRequest_postcode: inputAdres.pc, adresMatchRequest_huisnummer: inputAdres.housnr);
+            var adresses = await adresMatch.V1AdresmatchGetAsync( gemeentenaam: inputAdres.municapalname, straatnaam: inputAdres.street, 
+                                                                  postcode: inputAdres.pc, huisnummer: inputAdres.housnr);
             adresmatches = adresses.AdresMatches.ToList();
             int numsFound = (from n in adresmatches where n.VolledigAdres != null select n).Count();
             int streetsFound = (from n in adresmatches where n.VolledigAdres == null && n.Straatnaam != null select n).Count();
@@ -38,8 +44,8 @@ namespace adressenRegisterGeocoder
                   {
                      inputAdres.housnr = Convert.ToString(numPart + i);
 
-                     adresses = await adresMatch.GetAsync("1", inputAdres.municapalname, adresMatchRequest_straatnaam: inputAdres.street,
-                                                adresMatchRequest_postcode: inputAdres.pc, adresMatchRequest_huisnummer: inputAdres.housnr);
+                     adresses = await adresMatch.V1AdresmatchGetAsync(gemeentenaam: inputAdres.municapalname, straatnaam: inputAdres.street,
+                                                                      postcode: inputAdres.pc, huisnummer: inputAdres.housnr);
                      numsFound = (from n in adresses.AdresMatches where n.VolledigAdres != null select n).Count();
                      if (numsFound >= 1)
                      {
@@ -50,7 +56,7 @@ namespace adressenRegisterGeocoder
                }
             }
          }
-         catch (SwaggerException e)
+         catch (vlaanderen.informatie.Client.ApiException e)
          {
             System.Diagnostics.Debug.WriteLine(e.Message);
             return new AdresMatchItem[0]; //empty array
@@ -67,8 +73,8 @@ namespace adressenRegisterGeocoder
         if ((from n in adresses where n.VolledigAdres != null select n).Count() >= 1)
          {
             var adresMatch = adresses.Where(n => n.VolledigAdres != null).First(); //TODO multiple results
-            adr.x = adresMatch.AdresPositie.Point1.Coordinates[0];
-            adr.y = adresMatch.AdresPositie.Point1.Coordinates[1];
+            adr.x = adresMatch.AdresPositie._Point.Coordinates[0];
+            adr.y = adresMatch.AdresPositie._Point.Coordinates[1];
             adr.adresID = adresMatch.Identificator.Id;
             adr.validadres = adresMatch.VolledigAdres.GeografischeNaam.Spelling;
             adr.info = (adresMatch.Score != null ? ((double)adresMatch.Score).ToString("000.0") : "") +
