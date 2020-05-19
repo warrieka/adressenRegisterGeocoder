@@ -101,6 +101,7 @@ namespace adressenRegisterGeocoder
                   var xy = gu.randomPointOnLine(geom);
                   adr.x = Math.Round(xy.X, 2);
                   adr.y = Math.Round(xy.Y, 2);
+                  
                }
             }
             else if (centerXY)

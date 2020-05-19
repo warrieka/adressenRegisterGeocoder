@@ -7,7 +7,7 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("adressenRegisterGeocoder")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This tool allows you to geocode adressen in Flanders based on the Adresmatch geocoder from the adressen-register API of the Flemish governement.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Stad Antwerpen")]
 [assembly: AssemblyProduct("adressenRegisterGeocoder")]
@@ -33,6 +33,6 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.5.0.1")]
-[assembly: AssemblyFileVersion("0.5.0.1")]
+[assembly: AssemblyVersion("0.5.1.1")]
+[assembly: AssemblyFileVersion("0.5.1.1")]
 [assembly: NeutralResourcesLanguageAttribute("nl")]
