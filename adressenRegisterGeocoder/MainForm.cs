@@ -22,6 +22,7 @@ namespace adressenRegisterGeocoder
 {
    public partial class MainForm : Form
    {
+       
       crsFactory crs;
       geoUtils gu;
       GeoAPI.Geometries.IGeometryFactory gf;
@@ -97,10 +98,23 @@ namespace adressenRegisterGeocoder
          vlay = new SharpMap.Layers.VectorLayer("Points");
          vlay.DataSource = geoprov;
 
-         var grb = new TileAsyncLayer(new TmsTileSource("http://tile.informatievlaanderen.be/ws/raadpleegdiensten/tms/1.0.0/grb_bsk@GoogleMapsVL",
-                                           new BruTile.PreDefined.SphericalMercatorWorldSchema()), "GRB") { Enabled = true };
-         var lufo = new TileAsyncLayer(new TmsTileSource("http://tile.informatievlaanderen.be/ws/raadpleegdiensten/tms/1.0.0/omwrgbmrvl@GoogleMapsVL",
-                                           new BruTile.PreDefined.SphericalMercatorWorldSchema()), "Luchtfoto") { Enabled = false,  };
+         var grb = new SharpMap.Layers.WmsLayer("GRB", "https://geoservices.informatievlaanderen.be/raadpleegdiensten/GRB-basiskaart/wms");
+         grb.SetImageFormat("image/png");
+         grb.AddLayer("GRB_BSK");
+         grb.SRID = 3857; 
+         grb.Enabled = true;
+
+         var lufo = new SharpMap.Layers.WmsLayer("GRB", "https://inspire.informatievlaanderen.be/raadpleegdiensten/oi/wms");
+         lufo.SetImageFormat("image/jpeg");
+         lufo.AddLayer("OI.OrthoimageCoverage.OMW");
+         lufo.SRID = 3857;
+         lufo.Enabled = true;
+
+          //var grb = new TileAsyncLayer(new TmsTileSource("http://tile.informatievlaanderen.be/ws/raadpleegdiensten/tms/1.0.0/grb_bsk@GoogleMapsVL",
+            //                   new BruTile.PreDefined.SphericalMercatorWorldSchema()), "GRB") { Enabled = true };
+        // var lufo = new TileAsyncLayer(new TmsTileSource("http://tile.informatievlaanderen.be/ws/raadpleegdiensten/tms/1.0.0/omwrgbmrvl@GoogleMapsVL",
+          //                                 new BruTile.PreDefined.SphericalMercatorWorldSchema()), "Luchtfoto") { Enabled = false,  };
+
          var antTile = new BruTile.PreDefined.SphericalMercatorInvertedWorldSchema();
          antTile.Resolutions.Add(new Resolution() { Id = "19", UnitsPerPixel = 0.298582141647617 });
          var ant = new TileAsyncLayer(new ArcGisTileSource("https://tiles.arcgis.com/tiles/1KSVSmnHT2Lw9ea6/arcgis/rest/services/basemap_stadsplan_v5/MapServer",
